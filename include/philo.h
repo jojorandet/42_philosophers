@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/01 13:29:10 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/01 13:43:07 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <string.h>
+
 
 int	main(int argc, char **argv);
 //usleep uses unsigned int uscs, and then usleep(usecs)
