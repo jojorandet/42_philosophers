@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/01 18:03:27 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:40:14 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv);
 
 typedef struct	s_philo
 {
-	unsigned long	process_start_time;
+	struct timeval	process_start_time;
 }				t_philo;
 
 
