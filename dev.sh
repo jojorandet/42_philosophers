@@ -1,5 +1,5 @@
 #/!/bin/bash
 
 make re
-./philo 1 2 3 4 5
+./philo a b c
 valgrind --leak-check=full ./philo
