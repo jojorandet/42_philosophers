@@ -4,8 +4,8 @@ CC				=			gcc
 CFLAGS 			= 			-Wall -Werror -Wextra -g 
 
 DIR_BIN			=			./bin
-DIR_INCLUDES	=			./include
-DIR_SRC			=			./src
+DIR_INCLUDES	=			./includes
+DIR_SRC			=			./sources
 
 
 OS = $(shell uname)
@@ -13,9 +13,9 @@ ifeq ($(OS), Darwin)
 	CFLAGS += -fsanitize=address
 endif 
 
-vpath %.c $(DIR_SRC)/utils
-
-SRCS			=			main.c
+SRCS			=			main.c \
+							exit.c \
+							parsing.c 
 
 OBJS			= 			$(addprefix $(DIR_BIN)/src/, $(SRCS:.c=.o))
 
