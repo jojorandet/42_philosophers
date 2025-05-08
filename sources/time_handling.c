@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time_handling.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/08 17:22:35 by jrandet          ###   ########.fr       */
+/*   Created: 2025/05/08 16:39:40 by jrandet           #+#    #+#             */
+/*   Updated: 2025/05/08 17:14:39 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+size_t	ft_usleep(size_t microseconds)
 {
-	t_table	table;
-
-	if (argc - 1 < 4 || argc - 1 > 5)
-		return (msg(STR_HELP, NULL, EXIT_FAILURE));
-	if (!is_valid_input(argc, argv))
-		return (EXIT_FAILURE);
-	if (!init_philo(argc, argv, &table))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	time_t	
+	
+	while (get_time_of_day() - start < microseconds)
+	{
+		usleep(100)
+	}
+	return (0);
 }
+

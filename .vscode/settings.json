@@ -5,6 +5,7 @@
 		"philo.h": "c",
 		"unistd.h": "c",
 		"stdio.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"time_HANDLING.C": "cpp"
 	}
 }

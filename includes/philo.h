@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/08 14:31:09 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/08 17:21:10 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,27 @@ positive :-)"
 
 /******************************** STRUCTURES *******************************/
 
-typedef struct	s_philo
-{
-	unsigned int	philo_id;
-	
 
-}				t_philo;
-
-typedef struct	s_table_philo
+typedef struct	s_table
 {
-	int			number_of_philosophers; // number of philo is also number of forks
+	int			number_of_philos; // number of philo is also number of forks
 	int			time_to_die; //in miliseconds, if hasnt eaten in time to die since end of last meal or begining dead
 	int			time_to_eat; //the time it takes for the philosophers to eat (they must hold two forks)
 	int			time_to_sleep; //the time a philo spends sleeping
 	int			nbr_of_times_philo_must_eat;
 	t_philo		*philo;
-}				t_table_philo;
+	pthread_t	*thread_array;
+}				t_table;
+
+typedef struct	s_philo
+{
+	size_t				philo_id;
+	pthread_mutex_t		right_fork;
+	pthread_mutex_t		*left_fork;
+	unsigned int		has_eaten;
+	t_table				*table;
+	
+}				t_philo;
 
 /******************************* FUNCTIONS *********************************/
 
@@ -65,7 +70,7 @@ int				is_valid_input(int argc, char **argv);
 int				is_int_max(char *s);
 int				ft_atoi(char *s);
 
-t_table_philo	*init_philo(int argc, char **argv, t_philo *philo);
+t_table	*init_philo(int argc, char **argv, t_philo *philo);
 
 int				ft_strlen(char *s);
 int				ft_strcmp(char *s1, char *s2);
