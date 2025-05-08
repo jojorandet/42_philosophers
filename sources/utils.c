@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/08 14:38:18 by jrandet          ###   ########.fr       */
+/*   Created: 2025/05/08 11:26:28 by jrandet           #+#    #+#             */
+/*   Updated: 2025/05/08 14:29:20 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+int	ft_strlen(char *s)
 {
-	t_philo	philo;
+	int	i;
 
-	if (argc - 1 < 4 || argc - 1 > 5)
-		return (msg(STR_HELP, NULL, EXIT_FAILURE));
-	if (!is_valid_input(argc, argv))
-		return (EXIT_FAILURE);
-	if (!init_philo(argc, argv, &philo))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	while (*s1 && *s2 && (*s1 == *s2))
+	{
+		if (*s1 != *s2)
+			break;
+		s1++;
+		s2++;
+	}
+	return (s1 - s2);
 }

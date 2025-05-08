@@ -15,7 +15,9 @@ endif
 
 SRCS			=			main.c \
 							exit.c \
-							parsing.c 
+							parsing.c \
+							init_philo.c \
+							utils.c 
 
 OBJS			= 			$(addprefix $(DIR_BIN)/src/, $(SRCS:.c=.o))
 
