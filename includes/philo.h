@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/08 17:21:10 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:52:57 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,43 +38,43 @@ positive :-)"
 
 /******************************** STRUCTURES *******************************/
 
-
-typedef struct	s_table
-{
-	int			number_of_philos; // number of philo is also number of forks
-	int			time_to_die; //in miliseconds, if hasnt eaten in time to die since end of last meal or begining dead
-	int			time_to_eat; //the time it takes for the philosophers to eat (they must hold two forks)
-	int			time_to_sleep; //the time a philo spends sleeping
-	int			nbr_of_times_philo_must_eat;
-	t_philo		*philo;
-	pthread_t	*thread_array;
-}				t_table;
+typedef struct s_table t_table;
 
 typedef struct	s_philo
 {
-	size_t				philo_id;
-	pthread_mutex_t		right_fork;
-	pthread_mutex_t		*left_fork;
+	size_t				id;
+	unsigned int		fork[2];
 	unsigned int		has_eaten;
 	t_table				*table;
 	
 }				t_philo;
 
+typedef struct	s_table
+{
+	int				number_of_philos;
+		int			time_to_die;
+		int			time_to_eat;
+		int			time_to_sleep;
+		int			nbr_of_times_philo_must_eat;
+		t_philo		*philo;
+}				t_table;
+
+
 /******************************* FUNCTIONS *********************************/
 
-int				main(int argc, char **argv);
-int				msg(char *help_msg, char *detail, int exit_no);
+int					main(int argc, char **argv);
+int					msg(char *help_msg, char *detail, int exit_no);
 
 
-int				is_valid_input(int argc, char **argv);
-int				is_int_max(char *s);
-int				ft_atoi(char *s);
+int					is_valid_input(int argc, char **argv);
+int					is_int_max(char *s);
+int					ft_atoi(char *s);
 
-t_table	*init_philo(int argc, char **argv, t_philo *philo);
+t_table				*init_philo(int argc, char **argv, t_table *table);
 
-int				ft_strlen(char *s);
-int				ft_strcmp(char *s1, char *s2);
-void			free_ptr_array(char ***array);
+int					ft_strlen(char *s);
+int					ft_strcmp(char *s1, char *s2);
+void				free_ptr_array(t_philo **array);
 
 
 

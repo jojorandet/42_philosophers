@@ -6,27 +6,27 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/08 16:02:20 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:51:45 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_ptr_array(char ***array)
+void	free_ptr_array(t_philo **array)
 {
-	char	***start;
+	t_philo	**start;
 
 	if (!array || !(*array))
 		return ;
 	start = array;
-	while (**array)
+	while (*array)
 	{
-		free(**array);
-		**array = NULL;
+		free(*array);
+		*array = NULL;
 		array++;
 	}
-	free(*start);
-	*start = NULL;
+	free(start);
+	start = NULL;
 }
 
 int	msg(char *help_msg, char *detail, int exit_no)

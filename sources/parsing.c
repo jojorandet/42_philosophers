@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:08:15 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/08 14:22:06 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:43:00 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,5 @@ int	is_valid_input(int argc, char **argv)
 			return (msg(STR_TOO_MANY_THREADS, argv[i], EXIT_FAILURE));
 		i++;
 	}
-	printf("all arguments pass\n");
 	return (true);
 }
