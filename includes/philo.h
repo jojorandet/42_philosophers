@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/09 16:52:57 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:40:38 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,21 @@ typedef struct s_table t_table;
 
 typedef struct	s_philo
 {
+	pthread_t			thread;
 	size_t				id;
 	unsigned int		fork[2];
 	unsigned int		has_eaten;
-	t_table				*table;
-	
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
 }				t_philo;
 
 typedef struct	s_table
 {
-	int				number_of_philos;
-		int			time_to_die;
-		int			time_to_eat;
-		int			time_to_sleep;
-		int			nbr_of_times_philo_must_eat;
-		t_philo		*philo;
+	int					number_of_philos;
+	int					nbr_of_times_philo_must_eat;
+	t_philo				*philo;
+	pthread_mutex_t		*fork_mutexes;
 }				t_table;
 
 
@@ -71,11 +71,16 @@ int					is_int_max(char *s);
 int					ft_atoi(char *s);
 
 t_table				*init_philo(int argc, char **argv, t_table *table);
+int					start_philo_routine(t_table *table);
+int					finish_philo_routine(t_table *table);
 
 int					ft_strlen(char *s);
 int					ft_strcmp(char *s1, char *s2);
-void				free_ptr_array(t_philo **array);
+time_t				get_time_in_miliseconds(void);
 
+
+void				destroy_mutexes(t_table *table);
+void				exit_philo(t_table *table);
 
 
 #endif

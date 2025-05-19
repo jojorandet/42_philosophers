@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/19 16:32:09 by jrandet          ###   ########.fr       */
+/*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
+/*   Updated: 2025/05/19 17:59:24 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
-{
-	t_table	table;
 
-	if (argc - 1 < 4 || argc - 1 > 5)
-		return (msg(STR_HELP, NULL, EXIT_FAILURE));
-	if (!is_valid_input(argc, argv))
-		return (EXIT_FAILURE);
-	if (!init_philo(argc, argv, &table))
-		return (EXIT_FAILURE);
-	start_philo_routine(&table);
-	finish_philo_routine(&table);
-	exit_philo(&table);
-	return (EXIT_SUCCESS);
+void	philo_sleep(t_table *table, time_t time_to_rest)
+{
+	time_t	end_of_rest_time;
+
+	end_of_rest_time = get_time_in_miliseconds() + time_to_rest;
+	while (get_time_in_miliseconds() < end_of_rest_time)
+	{
+		
+	}
+}
+
+
+time_t	get_time_in_miliseconds(void)
+{
+	struct timeval	tv;
+	
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

@@ -17,7 +17,8 @@ SRCS			=			main.c \
 							exit.c \
 							parsing.c \
 							init_philo.c \
-							utils.c 
+							utils.c \
+							launch_and_stop_routine.c 
 
 OBJS			= 			$(addprefix $(DIR_BIN)/src/, $(SRCS:.c=.o))
 

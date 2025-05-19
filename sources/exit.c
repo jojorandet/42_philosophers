@@ -6,28 +6,11 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/09 16:51:45 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/19 17:07:22 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	free_ptr_array(t_philo **array)
-{
-	t_philo	**start;
-
-	if (!array || !(*array))
-		return ;
-	start = array;
-	while (*array)
-	{
-		free(*array);
-		*array = NULL;
-		array++;
-	}
-	free(start);
-	start = NULL;
-}
 
 int	msg(char *help_msg, char *detail, int exit_no)
 {
@@ -42,7 +25,23 @@ int	msg(char *help_msg, char *detail, int exit_no)
 	return (exit_no);
 }
 
-void	free_table_philo(t_table *table)
+void	destroy_mutexes(t_table *table)
 {
-	free_ptr_array(&table->philo);
+	int i = 0;
+	
+	if (table->fork_mutexes)
+	{
+		while (i < table->number_of_philos)
+		{
+			pthread_mutex_destroy(&table->fork_mutexes[i]);
+			i++;
+		}
+		free(table->fork_mutexes);
+		table->fork_mutexes = NULL;
+	}
+}
+
+void	exit_philo(t_table *table)
+{
+	free(table->philo);
 }
