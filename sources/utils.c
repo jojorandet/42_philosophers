@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:26:28 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/09 16:54:26 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 11:41:58 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,13 @@ int	ft_strcmp(char *s1, char *s2)
 		s2++;
 	}
 	return (s1 - s2);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int		i;
+
+	i = 0;
+	while (s[i++])
+		write(1, &s[i], fd);
 }

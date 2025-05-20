@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/19 18:40:38 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:53:41 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,49 +38,55 @@ positive :-)"
 
 /******************************** STRUCTURES *******************************/
 
-typedef struct s_table t_table;
+typedef struct s_global_data t_global_data;
 
-typedef struct	s_philo
+typedef struct				s_philo_data
 {
-	pthread_t			thread;
-	size_t				id;
-	unsigned int		fork[2];
-	unsigned int		has_eaten;
-	int					time_to_die;
-	int					time_to_eat;
-	int					time_to_sleep;
-}				t_philo;
+	int						time_to_die;
+	int						time_to_eat;
+	int						time_to_sleep;
+	int						number_of_philos;
+	int						nbr_meals_per_philo;
+	size_t					id;
+	pthread_t				thread;
+	unsigned int			meals_eaten;
+	unsigned int			fork[2];
+}							t_philo_data;
 
-typedef struct	s_table
+typedef struct				s_global_data
 {
-	int					number_of_philos;
-	int					nbr_of_times_philo_must_eat;
-	t_philo				*philo;
-	pthread_mutex_t		*fork_mutexes;
-}				t_table;
+	pthread_mutex_t			*fork_mutexes;
+	pthread_mutex_t			write_lock;
+	bool					philo_is_dead;
+	t_philo_data			*philo;
+}							t_global_data;
 
 
 /******************************* FUNCTIONS *********************************/
 
-int					main(int argc, char **argv);
-int					msg(char *help_msg, char *detail, int exit_no);
+int							main(int argc, char **argv);
+int							msg(char *help_msg, char *detail, int exit_no);
 
 
-int					is_valid_input(int argc, char **argv);
-int					is_int_max(char *s);
-int					ft_atoi(char *s);
+int							is_valid_input(int argc, char **argv);
+int							is_int_max(char *s);
+int							ft_atoi(char *s);
 
-t_table				*init_philo(int argc, char **argv, t_table *table);
-int					start_philo_routine(t_table *table);
-int					finish_philo_routine(t_table *table);
+t_global_data				*init_global_data(t_global_data *global);
 
-int					ft_strlen(char *s);
-int					ft_strcmp(char *s1, char *s2);
-time_t				get_time_in_miliseconds(void);
+t_philo_data				*init_thread_data(int argc, char **argv, int n_philos);
+
+int							start_philo_routine(t_global_data *table);
+int							finish_philo_routine(t_global_data *table);
+
+int							ft_strlen(char *s);
+int							ft_strcmp(char *s1, char *s2);
+void						ft_putstr_fd(char *s, int fd);
+time_t						get_current_time_in_miliseconds(void);
 
 
-void				destroy_mutexes(t_table *table);
-void				exit_philo(t_table *table);
+void						destroy_mutexes(t_global_data *table);
+void						exit_philo(t_global_data *table);
 
 
 #endif

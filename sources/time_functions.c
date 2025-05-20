@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   time_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/19 17:59:24 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 13:34:24 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-void	philo_sleep(t_table *table, time_t time_to_rest)
+time_t	get_current_time_in_miliseconds(void)
 {
-	time_t	end_of_rest_time;
+	struct timeval	time;
 
-	end_of_rest_time = get_time_in_miliseconds() + time_to_rest;
-	while (get_time_in_miliseconds() < end_of_rest_time)
-	{
-		
-	}
+	if (gettimeofday(&time, NULL) == -1)
+		ft_putstr_fd("gettimeofday() failed.\n", 2);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-
-time_t	get_time_in_miliseconds(void)
+int	ft_usleep(time_t time_limit_ms)
 {
-	struct timeval	tv;
-	
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	time_t	start;
+
+	start = get_current_time_in_miliseconds();
+	while (get_current_time_in_miliseconds() - start < time_limit_ms)
+		usleep(500);
+	return (0);
 }

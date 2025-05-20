@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/19 17:05:34 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:45:10 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,65 +14,62 @@
 
 static void	*philo_routine(void	*data)
 {
-	t_philo		*philo;
-	pthread_t	tid;
+	t_philo_data		*philo;
+	pthread_t				tid;
 
 	tid = pthread_self();
-	philo = (t_philo *)data;
+	philo = (t_philo_data *)data;
 	printf("for philo %ld thread[%ld] has been created.\n", philo->id, tid);
-	//sleep
-	//think
-	//repeat
 	return (NULL);
 }
 
-/*
-*	pthread_create:
-*	thread: a pointer to the pthread_t variable type that we need to send, the thread id
-*	attr is NULL 
-*	args is a pointer to pass to the routie function, if more than one we need to send a struct
-*/
-int	start_philo_routine(t_table *table)
+int	finish_philo_routine(t_global_data *global)
 {
-	int			i;
-	int			status;
+	t_philo_data	*philo;
+	int					i;
+	int					status;
 
+	philo = global->philo;
 	i = 0;
 	status = 0;
-	while (i < table->number_of_philos)
+	while (i < philo->number_of_philos)
 	{
-		status = pthread_create(&table->philo[i].thread, NULL, philo_routine, &table->philo[i]);
+		status = pthread_join(global->philo[i].thread, NULL);
+		if (status != 0)
+		{
+			return (msg("Error: pthread_join failed.\n", \
+				NULL, EXIT_FAILURE), false);
+		}
+		i++;
+	}
+	destroy_mutexes(global);
+	return (true);
+}
+
+int	start_philo_routine(t_global_data *global)
+{
+	t_philo_data	*philo;
+	int					i;
+	int					status;
+
+	philo = global->philo;
+	i = 0;
+	status = 0;
+	while (i < philo->number_of_philos)
+	{
+		status = pthread_create(&philo[i].thread, NULL, philo_routine, \
+			&global->philo[i]);
 		if (status != 0)
 		{
 			while (i--)
 			{
-				pthread_detach(table->philo[i].thread);
+				pthread_detach(philo[i].thread);
 			}
 			return (msg("Error: pthread_create failed.\n", \
-				 NULL, EXIT_FAILURE), false); //scenariowhere it does not work 
+				NULL, EXIT_FAILURE), false);
 		}
+		printf("Pthread create number %d\n", i);
 		i++;
 	}
-	return (true);
-}
-
-int	finish_philo_routine(t_table *table)
-{
-	int		i;
-	int		status;
-
-	i = 0;
-	status = 0;
-	while (i < table->number_of_philos)
-	{
-		status = pthread_join(table->philo[i].thread, NULL);
-		if (status != 0)
-		{
-			return (msg("Error: pthread_join failed.\n", \
-				 NULL, EXIT_FAILURE), false); //scenariowhere it does not work
-		}
-		i++;
-	}
-	destroy_mutexes(table);
 	return (true);
 }
