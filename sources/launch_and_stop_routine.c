@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/20 14:45:10 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 17:17:09 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	*philo_routine(void	*data)
 
 int	finish_philo_routine(t_global_data *global)
 {
-	t_philo_data	*philo;
+	t_philo_data		*philo;
 	int					i;
 	int					status;
 
 	philo = global->philo;
 	i = 0;
 	status = 0;
-	while (i < philo->number_of_philos)
+	while (i < philo->param.number_of_philos)
 	{
 		status = pthread_join(global->philo[i].thread, NULL);
 		if (status != 0)
@@ -48,14 +48,14 @@ int	finish_philo_routine(t_global_data *global)
 
 int	start_philo_routine(t_global_data *global)
 {
-	t_philo_data	*philo;
+	t_philo_data		*philo;
 	int					i;
 	int					status;
 
 	philo = global->philo;
 	i = 0;
 	status = 0;
-	while (i < philo->number_of_philos)
+	while (i < philo->param.number_of_philos)
 	{
 		status = pthread_create(&philo[i].thread, NULL, philo_routine, \
 			&global->philo[i]);

@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/20 14:34:57 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:50:19 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	destroy_mutexes(t_global_data *global)
 		free(global->fork_mutexes);
 		global->fork_mutexes = NULL;
 	}
+	pthread_mutex_destroy(&global->write_lock);
 }
 
 void	exit_philo(t_global_data *global)

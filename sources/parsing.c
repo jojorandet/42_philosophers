@@ -6,11 +6,22 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:08:15 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/09 16:43:00 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 17:31:53 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	init_param(int argc, char **argv, t_param *param)
+{
+	param->number_of_philos = ft_atoi(argv[1]);
+	param->time_to_die = ft_atoi(argv[2]);
+	param->time_to_eat = ft_atoi(argv[3]);
+	param->time_to_sleep = ft_atoi(argv[4]);
+	param->nbr_meals_per_philo = -1;
+	if (argc - 1 == 5)
+		param->nbr_meals_per_philo = ft_atoi(argv[5]);
+}
 
 int	is_a_number(char *s)
 {

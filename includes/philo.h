@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/20 14:53:41 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/20 17:53:45 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,48 @@ positive :-)"
 
 typedef struct s_global_data t_global_data;
 
-typedef struct				s_philo_data
+
+/**
+ * @param Parameters are the parameters given to launch the phoilosopher simulation
+ * 
+ * @note all the time values are given in miliseconds. 
+ */
+typedef struct 				s_param
 {
+	int						number_of_philos;
 	int						time_to_die;
 	int						time_to_eat;
 	int						time_to_sleep;
-	int						number_of_philos;
 	int						nbr_meals_per_philo;
+}							t_param;
+
+/**
+ * @brief data structure representing an individual philosopher.
+ * @param param a complete structure with the philosopher simulation parameters.
+ * @param id each philosopher's unique identifier.
+ * @param thread required for pthread_create function 
+ * @param meals_eaten Number of meals eaten by Philosopher.
+ * @param fork fork access for each philo. fork[0] is the first fork taken, fork[1]
+ * the second.
+ * @param write_lock Pointer to shared mutex used for controlled output synchronization.
+ */
+typedef struct				s_philo_data
+{
+	t_param					param;
 	size_t					id;
 	pthread_t				thread;
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];
+	pthread_mutex_t			*write_lock;
 }							t_philo_data;
 
+/**
+ * @param fork_mutexes Array of mutexes for all forks.
+ * @param write_lock  mutex for preventing data races on output functions.
+ * @param philo_is_dead is a flag indicating the end of the simulation. 
+ * @param philo pointer to the philo structures.
+ * @
+ */
 typedef struct				s_global_data
 {
 	pthread_mutex_t			*fork_mutexes;
@@ -61,6 +90,13 @@ typedef struct				s_global_data
 	t_philo_data			*philo;
 }							t_global_data;
 
+typedef	enum e_philo_state
+{
+	DIED = 0,
+	EATING = 1,
+	SLEEPING = 2,
+	THINKING = 3,
+}			t_philo_state;
 
 /******************************* FUNCTIONS *********************************/
 
@@ -72,9 +108,11 @@ int							is_valid_input(int argc, char **argv);
 int							is_int_max(char *s);
 int							ft_atoi(char *s);
 
-t_global_data				*init_global_data(t_global_data *global);
+void						init_param(int argc, char **argv, t_param *param);
+void						initialise_global_mutexes(t_global_data *global);
 
-t_philo_data				*init_thread_data(int argc, char **argv, int n_philos);
+
+t_philo_data				*init_thread_data(t_global_data *global, t_param *params);
 
 int							start_philo_routine(t_global_data *table);
 int							finish_philo_routine(t_global_data *table);
