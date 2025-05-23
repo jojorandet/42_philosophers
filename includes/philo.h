@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/20 17:53:45 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:39 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_global_data t_global_data;
  */
 typedef struct 				s_param
 {
-	int						number_of_philos;
+	int						nb_philos;
 	int						time_to_die;
 	int						time_to_eat;
 	int						time_to_sleep;
@@ -70,6 +70,7 @@ typedef struct				s_philo_data
 	t_param					param;
 	size_t					id;
 	pthread_t				thread;
+	time_t					start_time;
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];
 	pthread_mutex_t			*write_lock;
@@ -96,6 +97,8 @@ typedef	enum e_philo_state
 	EATING = 1,
 	SLEEPING = 2,
 	THINKING = 3,
+	GOT_FIRST_FORK = 4,
+	GOT_SECOND_FORK = 5,
 }			t_philo_state;
 
 /******************************* FUNCTIONS *********************************/
@@ -120,7 +123,7 @@ int							finish_philo_routine(t_global_data *table);
 int							ft_strlen(char *s);
 int							ft_strcmp(char *s1, char *s2);
 void						ft_putstr_fd(char *s, int fd);
-time_t						get_current_time_in_miliseconds(void);
+time_t						get_t_in_ms(void);
 
 
 void						destroy_mutexes(t_global_data *table);

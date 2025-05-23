@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/20 17:31:09 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/23 14:44:49 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ int	main(int argc, char **argv)
 	if (!is_valid_input(argc, argv))
 		return (EXIT_FAILURE);
 	init_param(argc, argv, &params);
+	global.philo =  init_thread_data(&global, &params);
 	initialise_global_mutexes(&global);
 	if (!global.philo)
 		return (EXIT_FAILURE);
-	if (!init_global_data(&global))
-			return (EXIT_FAILURE);
 	start_philo_routine(&global);
 	finish_philo_routine(&global);
 	exit_philo(&global);
