@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 10:09:06 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:56:25 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,16 @@ typedef struct 				s_param
  * @param fork fork access for each philo. fork[0] is the first fork taken, fork[1]
  * the second.
  * @param write_lock Pointer to shared mutex used for controlled output synchronization.
+ * I didnt want to give the pointer to global, so i give pointers to one shared 
+ * mutex memory space.
  */
 typedef struct				s_philo_data
 {
-	t_param					param;
 	size_t					id;
 	pthread_t				thread;
-	time_t					start_time;
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];
-	pthread_mutex_t			*write_lock;
-	pthread_mutex_t			*eating_lock;
+	t_global_data			*global;
 }							t_philo_data;
 
 /**
@@ -86,10 +85,13 @@ typedef struct				s_philo_data
  */
 typedef struct				s_global_data
 {
+	time_t					start_time;
+	time_t					time_stamp;
+	t_param					params;
+	bool					philo_is_dead;
 	pthread_mutex_t			*fork_mutexes;
 	pthread_mutex_t			write_lock;
 	pthread_mutex_t			eating_lock;
-	bool					philo_is_dead;
 	t_philo_data			*philo;
 }							t_global_data;
 
@@ -117,9 +119,12 @@ void						init_param(int argc, char **argv, t_param *param);
 void						initialise_global_mutexes(t_global_data *global);
 
 
-t_philo_data				*init_thread_data(t_global_data *global, t_param *params);
+t_philo_data				*init_thread_data(t_global_data *global);
+void						init_global_struct(t_global_data *global, t_param *params);
 
 int							start_philo_routine(t_global_data *table);
+void						*log_philo_status(void	*data);
+//void						log_philo_status(t_global_data *global, t_philo_state state);
 void						*routine(void	*data);
 int							finish_philo_routine(t_global_data *table);
 

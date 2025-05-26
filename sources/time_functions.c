@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 10:12:53 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:56:00 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
  * @param time.tv_usec is in microseconds, so divided by 1000.
  * @param result is a value of type time_t used in function below.
  * result is in microseconds for the simualtion
+ * can be called separately to the ft_usleep function for timestamp
  */
 time_t	get_time_usec(void)
 {
