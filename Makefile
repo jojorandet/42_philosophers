@@ -20,6 +20,7 @@ SRCS			=			main.c \
 							utils.c \
 							time_functions.c \
 							launch_and_stop_routine.c \
+							routine.c \
 							exit.c
 
 OBJS			= 			$(addprefix $(DIR_BIN)/src/, $(SRCS:.c=.o))

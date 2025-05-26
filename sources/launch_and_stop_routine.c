@@ -6,23 +6,11 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:23:25 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 10:09:05 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void	*routine(void	*data)
-{
-	t_philo_data		*philo;
-	pthread_t				tid;
-
-	tid = pthread_self();
-	philo = (t_philo_data *)data;
-	printf("philo of tid %ld has been created (philo->id is worth %ld\n)", tid, philo->id);
-	return (NULL);
-}
-
 
 int	start_philo_routine(t_global_data *global)
 {
@@ -33,7 +21,8 @@ int	start_philo_routine(t_global_data *global)
 	i = 0;
 	while (i < philo->param.nb_philos)
 	{
-		philo->start_time = get_t_in_ms() * philo->param.nb_philos * 2 * 10;
+		philo[i].start_time = get_time_usec();
+		//   * philo->param.nb_philos * 2 * 10;
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
 		{
 				while (i--)

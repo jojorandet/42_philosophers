@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:19:39 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 10:09:06 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct				s_philo_data
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];
 	pthread_mutex_t			*write_lock;
+	pthread_mutex_t			*eating_lock;
 }							t_philo_data;
 
 /**
@@ -87,6 +88,7 @@ typedef struct				s_global_data
 {
 	pthread_mutex_t			*fork_mutexes;
 	pthread_mutex_t			write_lock;
+	pthread_mutex_t			eating_lock;
 	bool					philo_is_dead;
 	t_philo_data			*philo;
 }							t_global_data;
@@ -118,12 +120,13 @@ void						initialise_global_mutexes(t_global_data *global);
 t_philo_data				*init_thread_data(t_global_data *global, t_param *params);
 
 int							start_philo_routine(t_global_data *table);
+void						*routine(void	*data);
 int							finish_philo_routine(t_global_data *table);
 
 int							ft_strlen(char *s);
 int							ft_strcmp(char *s1, char *s2);
 void						ft_putstr_fd(char *s, int fd);
-time_t						get_t_in_ms(void);
+time_t						get_time_usec(void);
 
 
 void						destroy_mutexes(t_global_data *table);
