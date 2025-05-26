@@ -6,12 +6,19 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 11:41:32 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:15:20 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/**
+ * 
+ * This program explores concurent programing around the dining philosopher 
+ * problem. 
+ * A good method is to determine which sections of the code are critical, and
+ * to protect them with locks. 
+ */
 int	main(int argc, char **argv)
 {
 	t_global_data	global;

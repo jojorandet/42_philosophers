@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 12:56:25 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:48:36 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ typedef struct s_global_data t_global_data;
  * 
  * @note all the time values are given in miliseconds. 
  */
+typedef	enum e_philo_state
+{
+	DIED,
+	EATING,
+	SLEEPING,
+	THINKING,
+	GOT_FIRST_FORK,
+	GOT_SECOND_FORK
+}			t_philo_state;
+
 typedef struct 				s_param
 {
 	int						nb_philos;
@@ -73,6 +83,7 @@ typedef struct				s_philo_data
 	pthread_t				thread;
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];
+	t_philo_state			state;
 	t_global_data			*global;
 }							t_philo_data;
 
@@ -95,15 +106,6 @@ typedef struct				s_global_data
 	t_philo_data			*philo;
 }							t_global_data;
 
-typedef	enum e_philo_state
-{
-	DIED = 0,
-	EATING = 1,
-	SLEEPING = 2,
-	THINKING = 3,
-	GOT_FIRST_FORK = 4,
-	GOT_SECOND_FORK = 5,
-}			t_philo_state;
 
 /******************************* FUNCTIONS *********************************/
 
@@ -123,15 +125,17 @@ t_philo_data				*init_thread_data(t_global_data *global);
 void						init_global_struct(t_global_data *global, t_param *params);
 
 int							start_philo_routine(t_global_data *table);
-void						*log_philo_status(void	*data);
-//void						log_philo_status(t_global_data *global, t_philo_state state);
+void						log_philo_status(t_global_data *global, t_philo_state state);
 void						*routine(void	*data);
 int							finish_philo_routine(t_global_data *table);
+
+int							ft_usleep(time_t time_limit_us);
+time_t						get_time_in_ms(void);
 
 int							ft_strlen(char *s);
 int							ft_strcmp(char *s1, char *s2);
 void						ft_putstr_fd(char *s, int fd);
-time_t						get_time_usec(void);
+time_t						get_time_in_ms(void);
 
 
 void						destroy_mutexes(t_global_data *table);

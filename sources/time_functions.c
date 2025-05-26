@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 12:56:00 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 13:36:38 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
  * @param time.tv_sec is in seconds, so to get in miliseconds * by 1000
  * @param time.tv_usec is in microseconds, so divided by 1000.
  * @param result is a value of type time_t used in function below.
- * result is in microseconds for the simualtion
- * can be called separately to the ft_usleep function for timestamp
+ * result is in miliseconds for the simualtion
+ * f can be called separately to the ft_usleep function for timestamp
  */
-time_t	get_time_usec(void)
+time_t	get_time_in_ms(void)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		ft_putstr_fd("gettimeofday() failed.\n", 2);
-	return ((time.tv_sec * 1000000) + time.tv_usec);
+	return ((time.tv_sec * 1000) + time.tv_usec / 1000);
 }
 
 
@@ -41,8 +41,8 @@ int	ft_usleep(time_t time_limit_us)
 {
 	time_t	start;
 
-	start = get_time_usec();
-	while (get_time_usec() - start < time_limit_us)
-		usleep(100);
+	start = get_time_in_ms();
+	while (get_time_in_ms() - start < time_limit_us)
+		usleep(500);
 	return (0);
 }
