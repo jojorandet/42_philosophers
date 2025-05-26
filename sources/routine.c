@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 19:43:02 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:49:48 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+//sleeping routine is when a philo uses ft_usleep(time to sleeo)
+
+//thinking time is when they are usign ft_usleep (time to sleep)
+
+//just like when the philo is waiting to print, you need to get the action before that (timestamp)
+
+// best to have uneven philosophers stard bythinknig , have a think routine function. 
+
 
 
 void	lone_philo_routine(t_philo_data *philo)
@@ -29,6 +38,5 @@ void	*routine(void	*data)
 	philo = (t_philo_data *)data;
 	if (philo->global->params.nb_philos == 1)
 		lone_philo_routine(philo);
-
 	return (NULL);
 }

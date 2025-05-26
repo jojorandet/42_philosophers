@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 12:52:35 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:23:38 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	assign_forks(t_philo_data *philosopher, int n_philos)
 		philosopher->fork[1] = (philosopher->id + 1) % n_philos;
 	}
 }
-
 
 /**
  * Table of threads, useful for the monitor to traverse and see which

@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   launch_and_stop_routine.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 19:44:48 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:23:35 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/**
+ * the reaper is created aftr the philos: better to read initialised thread
+ * than to miss a couple of seconds of monitoring.
+ */
+void	create_watcher(t_global_data *global)
+{
+	if (pthread_create(&global->watch_thread, NULL, watch_rounds, &global) != 0)
+	{
+		pthread_detach(global->watch_thread);
+		return msg("Error: pthread_join failed.\n", NULL, EXIT_FAILURE);
+	}
+}
 
 /**
  * @function the pthread create function takes four arguments
@@ -34,6 +47,8 @@ int	start_philo_routine(t_global_data *global)
 	int					i;
 	
 	philo = global->philo;
+	if (global->params.nb_philos > 1)
+		create_watcher(global);
 	i = 0;
 	while (i < global->params.nb_philos)
 	{
@@ -47,17 +62,21 @@ int	start_philo_routine(t_global_data *global)
 		}
 		i++;
 	}
+	if (global->params.nb_philos > 1)
+		create_watcher(global);
 	return (true);
 }
 
 /**
  * when you want to wait for threads to complete, you use pthread_join. 
  */
-int	finish_philo_routine(t_global_data *global)
+void	finish_philo_routine(t_global_data *global)
 {
-	int					i;
+	int	i;
 
 	i = 0;
+	//if the philosophers had to stop for some reason
+	//then this needs to send back false and exit the routine in clean way
 	while (i < global->params.nb_philos)
 	{
 		if (pthread_join(global->philo[i].thread, NULL) != 0)
@@ -65,6 +84,11 @@ int	finish_philo_routine(t_global_data *global)
 				NULL, EXIT_FAILURE), false);
 		i++;
 	}
+	if (global->params.nb_philos > 1)
+		pthread_join(global->watch_thread, NULL);
 	exit_philo(global);
 	return (true);
 }
+
+
+//creation of thread is separate from the routine starting 

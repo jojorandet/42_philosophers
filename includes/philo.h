@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 19:48:36 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:23:29 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct				s_global_data
 {
 	time_t					start_time;
 	time_t					time_stamp;
+	pthread_t				watch_thread;
 	t_param					params;
 	bool					philo_is_dead;
 	pthread_mutex_t			*fork_mutexes;
@@ -128,6 +129,8 @@ int							start_philo_routine(t_global_data *table);
 void						log_philo_status(t_global_data *global, t_philo_state state);
 void						*routine(void	*data);
 int							finish_philo_routine(t_global_data *table);
+
+ void						*watch_rounds(void *data);
 
 int							ft_usleep(time_t time_limit_us);
 time_t						get_time_in_ms(void);
