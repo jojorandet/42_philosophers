@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 23:49:48 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:46:30 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 //just like when the philo is waiting to print, you need to get the action before that (timestamp)
 
 // best to have uneven philosophers stard bythinknig , have a think routine function. 
+
+//eat sleep routine
 
 
 
@@ -33,7 +35,7 @@ void	lone_philo_routine(t_philo_data *philo)
 
 void	*routine(void	*data)
 {
-	t_philo_data			*philo;
+	t_philo_data	*philo;
 
 	philo = (t_philo_data *)data;
 	if (philo->global->params.nb_philos == 1)

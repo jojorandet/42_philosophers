@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_and_stop_routine.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 23:23:35 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:08:47 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
  * the reaper is created aftr the philos: better to read initialised thread
  * than to miss a couple of seconds of monitoring.
  */
-void	create_watcher(t_global_data *global)
-{
-	if (pthread_create(&global->watch_thread, NULL, watch_rounds, &global) != 0)
-	{
-		pthread_detach(global->watch_thread);
-		return msg("Error: pthread_join failed.\n", NULL, EXIT_FAILURE);
-	}
-}
+// int	create_watcher(t_global_data *global)
+// {
+// 	if (pthread_create(&global->watch_thread, NULL, watch_rounds, &global) != 0)
+// 	{
+// 		pthread_detach(global->watch_thread);
+// 		return msg("Error: pthread_join failed.\n", NULL, EXIT_FAILURE);
+// 	}
+// 	return (true);
+// }
 
 /**
  * @function the pthread create function takes four arguments
@@ -47,8 +48,8 @@ int	start_philo_routine(t_global_data *global)
 	int					i;
 	
 	philo = global->philo;
-	if (global->params.nb_philos > 1)
-		create_watcher(global);
+	// if (global->params.nb_philos > 1)
+	// 	create_watcher(global);
 	i = 0;
 	while (i < global->params.nb_philos)
 	{
@@ -62,8 +63,8 @@ int	start_philo_routine(t_global_data *global)
 		}
 		i++;
 	}
-	if (global->params.nb_philos > 1)
-		create_watcher(global);
+	// if (global->params.nb_philos > 1)
+	// 	create_watcher(global);
 	return (true);
 }
 
@@ -80,14 +81,12 @@ void	finish_philo_routine(t_global_data *global)
 	while (i < global->params.nb_philos)
 	{
 		if (pthread_join(global->philo[i].thread, NULL) != 0)
-			return (msg("Error: pthread_join failed.\n", \
-				NULL, EXIT_FAILURE), false);
+			ft_putstr_fd("Error: pthread_join failed.\n", 2);
 		i++;
 	}
-	if (global->params.nb_philos > 1)
-		pthread_join(global->watch_thread, NULL);
+	// if (global->params.nb_philos > 1)
+	// 	pthread_join(global->watch_thread, NULL);
 	exit_philo(global);
-	return (true);
 }
 
 

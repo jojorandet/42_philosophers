@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 23:23:29 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:43:31 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void						init_global_struct(t_global_data *global, t_param *params);
 int							start_philo_routine(t_global_data *table);
 void						log_philo_status(t_global_data *global, t_philo_state state);
 void						*routine(void	*data);
-int							finish_philo_routine(t_global_data *table);
+void						finish_philo_routine(t_global_data *global);
 
  void						*watch_rounds(void *data);
 

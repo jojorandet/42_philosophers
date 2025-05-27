@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   watcher.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:09:02 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 23:48:53 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:00:08 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,20 @@
 //the result of the above function can be 
 //above the time left, in whhich case 
 
+//two things he needs to check: has the philo eaten at least x meals?
 
+// has the philo died?
 
-void	*watch_rounds(void *data)
-{
-	t_global_data	*global;
-	int				nbr_philos;
-	int				time_to_die;
+// void	*watch_rounds(void *data)
+// {
+// 	t_global_data	*global;
+// 	int				nbr_philos;
+// 	int				time_to_die;
 
-	global = (t_global_data *)data;
-	nbr_philos = global->params.nb_philos;
-	time_to_die = global->params.time_to_die;
-	
-}
+// 	global = (t_global_data *)data;
+// 	nbr_philos = global->params.nb_philos;
+// 	time_to_die = global->params.time_to_die;
+// 	(void)time_to_die;
+// 	(void)nbr_philos;
+// 	return (NULL);
+// }

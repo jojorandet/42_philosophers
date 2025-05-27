@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:26:28 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/20 11:41:58 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:01:28 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	ft_putstr_fd(char *s, int fd)
 	int		i;
 
 	i = 0;
-	while (s[i++])
-		write(1, &s[i], fd);
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }

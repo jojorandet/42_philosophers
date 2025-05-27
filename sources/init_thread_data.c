@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 23:23:38 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:53:42 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_philo_data	*init_thread_data(t_global_data *global)
 	t_philo_data		*philos;
 	int					philo_i;
 
+
+	printf("%d\n", global->params.nb_philos);
 	philos = malloc(sizeof(t_philo_data) * global->params.nb_philos);
 	if (!philos)
 	{
