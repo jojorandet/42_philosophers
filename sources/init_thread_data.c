@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 10:53:42 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:24:18 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	assign_forks(t_philo_data *philosopher, int n_philos)
 	else
 	{
 		philosopher->fork[0] = philosopher->id;
-		philosopher->fork[1] = (philosopher->id + 1) % n_philos;
+		philosopher->fork[1] = (philosopher->id) % n_philos;
 	}
+	printf("philo %ld has taken fork %d and then fork %d\n", philosopher->id + 1, philosopher->fork[0], philosopher->fork[1]);
 }
 
 /**
@@ -36,8 +37,6 @@ t_philo_data	*init_thread_data(t_global_data *global)
 	t_philo_data		*philos;
 	int					philo_i;
 
-
-	printf("%d\n", global->params.nb_philos);
 	philos = malloc(sizeof(t_philo_data) * global->params.nb_philos);
 	if (!philos)
 	{
@@ -49,6 +48,7 @@ t_philo_data	*init_thread_data(t_global_data *global)
 	while (philo_i < global->params.nb_philos)
 	{
 		philos[philo_i].id = philo_i;
+		printf("%ld\n", philos[philo_i].id);
 		philos[philo_i].meals_eaten = 0;
 		philos[philo_i].global = global;
 		assign_forks(&philos[philo_i], global->params.nb_philos);

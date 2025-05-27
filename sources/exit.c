@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 12:51:52 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:22:58 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	destroy_mutexes(t_global_data *global)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	if (global->fork_mutexes)
 	{
-		while (i < global->params.nb_philos)
+		while (i <= global->params.nb_philos)
 		{
 			pthread_mutex_destroy(&global->fork_mutexes[i]);
 			i++;

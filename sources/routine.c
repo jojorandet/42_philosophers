@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 10:46:30 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:27:30 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 // best to have uneven philosophers stard bythinknig , have a think routine function. 
 
 //eat sleep routine
-
 
 
 void	lone_philo_routine(t_philo_data *philo)
