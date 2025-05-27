@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:24:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 11:35:01 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:47:12 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	initialise_global_mutexes(t_global_data *global)
 {
 	global->fork_mutexes = init_global_fork_mutex(global);
 	pthread_mutex_init(&global->write_lock, NULL);
-	pthread_mutex_init(&global->eating_lock, NULL);
+	pthread_mutex_init(&global->sim_end_lock, NULL);
 }
 
 void	init_global_struct(t_global_data *global, t_param *params)
@@ -57,5 +57,6 @@ void	init_global_struct(t_global_data *global, t_param *params)
 	global->time_stamp = 0;
 	global->params = *params;
 	global->philo_is_dead = false;
+	global->sim_has_ended = false;
 	initialise_global_mutexes(global);
 }

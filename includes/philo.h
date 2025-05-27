@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 10:43:31 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 14:31:11 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ typedef struct s_global_data t_global_data;
  */
 typedef	enum e_philo_state
 {
-	DIED,
-	EATING,
-	SLEEPING,
-	THINKING,
-	GOT_FIRST_FORK,
-	GOT_SECOND_FORK
+							DIED,
+							EATING,
+							SLEEPING,
+							THINKING,
+							GOT_FIRST_FORK,
+							GOT_SECOND_FORK
 }			t_philo_state;
 
 typedef struct 				s_param
@@ -101,9 +101,10 @@ typedef struct				s_global_data
 	pthread_t				watch_thread;
 	t_param					params;
 	bool					philo_is_dead;
+	bool					sim_has_ended; //needs mutex 
 	pthread_mutex_t			*fork_mutexes;
 	pthread_mutex_t			write_lock;
-	pthread_mutex_t			eating_lock;
+	pthread_mutex_t			sim_end_lock;
 	t_philo_data			*philo;
 }							t_global_data;
 
@@ -126,11 +127,11 @@ t_philo_data				*init_thread_data(t_global_data *global);
 void						init_global_struct(t_global_data *global, t_param *params);
 
 int							start_philo_routine(t_global_data *table);
-void						log_philo_status(t_global_data *global, t_philo_state state);
+void						log_philo_status(t_philo_data *philo, t_philo_state state);
 void						*routine(void	*data);
 void						finish_philo_routine(t_global_data *global);
 
- void						*watch_rounds(void *data);
+void						*watch_rounds(void *data);
 
 int							ft_usleep(time_t time_limit_us);
 time_t						get_time_in_ms(void);
@@ -140,9 +141,7 @@ int							ft_strcmp(char *s1, char *s2);
 void						ft_putstr_fd(char *s, int fd);
 time_t						get_time_in_ms(void);
 
-
 void						destroy_mutexes(t_global_data *table);
 void						exit_philo(t_global_data *table);
-
 
 #endif

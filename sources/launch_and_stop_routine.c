@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 12:36:11 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/27 14:44:16 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
  */
 int	create_watcher(t_global_data *global)
 {
-	printf("global->nbr of philos is %d\n", global->params.nb_philos);
-	printf("global->time to die is %d\n", global->params.time_to_die);
 	if (pthread_create(&global->watch_thread, NULL, watch_rounds, global) != 0)
 	{
 		pthread_detach(global->watch_thread);
@@ -50,8 +48,6 @@ int	start_philo_routine(t_global_data *global)
 	int					i;
 	
 	philo = global->philo;
-	if (global->params.nb_philos > 1)
-		create_watcher(global);
 	i = 0;
 	while (i < global->params.nb_philos)
 	{
@@ -59,12 +55,12 @@ int	start_philo_routine(t_global_data *global)
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
 		{
 			while (i--)
-				pthread_detach(philo[i].thread);
+			pthread_detach(philo[i].thread);
 			return (msg("Error: pthread_create failed.\n", \
 				NULL, EXIT_FAILURE), false);
+			}
+			i++;
 		}
-		i++;
-	}
 	if (global->params.nb_philos > 1)
 		create_watcher(global);
 	return (true);
