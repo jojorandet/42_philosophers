@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/26 13:36:38 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:50:29 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ time_t	get_time_in_ms(void)
 		ft_putstr_fd("gettimeofday() failed.\n", 2);
 	return ((time.tv_sec * 1000) + time.tv_usec / 1000);
 }
-
 
 /**
  * usleep (1000) may sleep 800us or 1200 us depending on the system

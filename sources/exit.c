@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 14:00:30 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:27:05 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,22 @@
 int	msg(char *help_msg, char *detail, int exit_no)
 {
 	if (detail != NULL)
-	{
 		printf(help_msg, STR_PROGRAM_NAME, detail);
-	}
 	else
-	{
 		printf(help_msg, STR_PROGRAM_NAME);
-	}
 	return (exit_no);
+}
+
+bool	check_if_sim_stopped(t_philo_data *philo)
+{
+	pthread_mutex_lock(&philo->global->sim_end_lock);
+	if (philo->global->sim_has_ended == true)
+	{
+		pthread_mutex_unlock(&philo->global->sim_end_lock);
+		return (true);
+	}
+	pthread_mutex_unlock(&philo->global->sim_end_lock);
+	return (false);
 }
 
 void	destroy_mutexes(t_global_data *global)

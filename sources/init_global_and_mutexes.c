@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:24:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 13:47:12 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 13:01:45 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
 
 	i = 0;
 	fork_mutexes = malloc(sizeof(pthread_mutex_t) * global->params.nb_philos);
+	if (!fork_mutexes)
+	{
+		ft_putstr_fd("Error: Malloc.", 2);
+		exit_philo(global);
+		return (NULL);
+	}
 	while (i < global->params.nb_philos)
 	{
 		pthread_mutex_init(&fork_mutexes[i], 0);
@@ -44,19 +50,21 @@ static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
  * When you are done, you need to detroy the mutexes. 
  * 
  */
-void	initialise_global_mutexes(t_global_data *global)
+static bool	initialise_global_mutexes(t_global_data *global)
 {
-	global->fork_mutexes = init_global_fork_mutex(global);
+	if (!(global->fork_mutexes = init_global_fork_mutex(global)))
+		return (false);
 	pthread_mutex_init(&global->write_lock, NULL);
 	pthread_mutex_init(&global->sim_end_lock, NULL);
+	return (true);
 }
 
-void	init_global_struct(t_global_data *global, t_param *params)
+bool	init_global_struct(t_global_data *global, t_param *params)
 {
 	global->start_time = 0;
 	global->time_stamp = 0;
 	global->params = *params;
 	global->philo_is_dead = false;
 	global->sim_has_ended = false;
-	initialise_global_mutexes(global);
+	return (initialise_global_mutexes(global));
 }

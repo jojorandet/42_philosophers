@@ -6,46 +6,61 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 14:42:38 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 13:53:57 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//sleeping routine is when a philo uses ft_usleep(time to sleeo)
-
-//thinking time is when they are usign ft_usleep (time to sleep)
-
-//just like when the philo is waiting to print, you need to get the action before that (timestamp)
-
-// best to have uneven philosophers stard bythinknig , have a think routine function. 
-
-//eat sleep routine
-void	eat_sleep_routine(t_philo_data *philo)
+int	waiting_for_forks(t_philo_data *philo)
 {
-	t_global_data *global;
+	pthread_mutex_t	first_fork;
+	pthread_mutex_t	second_fork;
+	t_global_data	*global;
 
 	global = philo->global;
-	pthread_mutex_lock(&global->fork_mutexes[philo->fork[0]]);
-	log_philo_status(philo, GOT_FIRST_FORK);
-	pthread_mutex_unlock(&global->fork_mutexes[philo->fork[0]]);
-	// pthread_mutex_lock(&global->sim_end_lock);
-	// global->sim_has_ended = true;
-	// pthread_mutex_unlock(&global->sim_end_lock);
+	first_fork = global->fork_mutexes[philo->fork[0]];
+	second_fork = global->fork_mutexes[philo->fork[1]];
+	pthread_mutex_lock(&first_fork);
+	if (!log_philo_status(philo, GOT_FIRST_FORK))
+	{
+		pthread_mutex_unlock(&first_fork);
+		return (0);
+	}
+	pthread_mutex_lock(&second_fork);
+	if (!log_philo_status(philo, GOT_SECOND_FORK))
+	{
+		pthread_mutex_unlock(&first_fork);
+		pthread_mutex_unlock(&second_fork);
+	}
+	return (1);
 }
-//as soon as a philo is dead, then the variable has to be written to 
 
-void	*lone_philo_routine(t_philo_data *philo)
+void	start_philo_life_cycle(t_philo_data *philo)
 {
-	t_global_data *global;
+	if (!(waiting_for_forks(philo)))
+		return ;
+	
+}
+/**
+ * @brief philos always start by thinking, the time they
+ * are thinking is the time where they can grab the forks.
+ * during that time, when they have both forks they can start
+ * eating.
+ * 
+ */
+void	lone_philo_routine(t_philo_data *philo)
+{
+	t_global_data	*global;
 
 	global = philo->global;
+	log_philo_status(philo, THINKING);
 	pthread_mutex_lock(&global->fork_mutexes[philo->fork[0]]);
 	log_philo_status(philo, GOT_FIRST_FORK);
 	ft_usleep(global->params.time_to_die);
 	log_philo_status(philo, DIED);
 	pthread_mutex_unlock(&global->fork_mutexes[philo->fork[0]]);
-	return (NULL);
+	return ;
 }
 
 void	*routine(void	*data)
@@ -54,7 +69,10 @@ void	*routine(void	*data)
 
 	philo = (t_philo_data *)data;
 	if (philo->global->params.nb_philos == 1)
-		return (lone_philo_routine(philo));
-	eat_sleep_routine(philo);
+	{
+		lone_philo_routine(philo);
+		return (NULL);
+	}
+	start_philo_life_cycle(philo);
 	return (NULL);
 }

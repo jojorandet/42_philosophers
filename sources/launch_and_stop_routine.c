@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 14:44:16 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:53:13 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,28 @@ int	create_watcher(t_global_data *global)
 	if (pthread_create(&global->watch_thread, NULL, watch_rounds, global) != 0)
 	{
 		pthread_detach(global->watch_thread);
-		return msg("Error: pthread_join failed.\n", NULL, EXIT_FAILURE);
+		return (msg("Error: pthread_join failed.\n", NULL, EXIT_FAILURE), false);
 	}
 	return (true);
+}
+
+/**
+ * when you want to wait for threads to complete, you use pthread_join. 
+ */
+void	finish_philo_routine(t_global_data *global)
+{
+	int	i;
+
+	i = 0;
+	while (i < global->params.nb_philos)
+	{
+		if (pthread_join(global->philo[i].thread, NULL) != 0)
+			ft_putstr_fd("Error: pthread_join failed.\n", 2);
+		i++;
+	}
+	if (global->params.nb_philos > 1)
+		pthread_join(global->watch_thread, NULL);
+	exit_philo(global);
 }
 
 /**
@@ -46,7 +65,7 @@ int	start_philo_routine(t_global_data *global)
 {
 	t_philo_data		*philo;
 	int					i;
-	
+
 	philo = global->philo;
 	i = 0;
 	while (i < global->params.nb_philos)
@@ -55,37 +74,13 @@ int	start_philo_routine(t_global_data *global)
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
 		{
 			while (i--)
-			pthread_detach(philo[i].thread);
+				pthread_detach(philo[i].thread);
 			return (msg("Error: pthread_create failed.\n", \
 				NULL, EXIT_FAILURE), false);
-			}
-			i++;
 		}
+		i++;
+	}
 	if (global->params.nb_philos > 1)
 		create_watcher(global);
 	return (true);
 }
-
-/**
- * when you want to wait for threads to complete, you use pthread_join. 
- */
-void	finish_philo_routine(t_global_data *global)
-{
-	int	i;
-
-	i = 0;
-	//if the philosophers had to stop for some reason
-	//then this needs to send back false and exit the routine in clean way
-	while (i < global->params.nb_philos)
-	{
-		if (pthread_join(global->philo[i].thread, NULL) != 0)
-			ft_putstr_fd("Error: pthread_join failed.\n", 2);
-		i++;
-	}
-	if (global->params.nb_philos > 1)
-		pthread_join(global->watch_thread, NULL);
-	exit_philo(global);
-}
-
-
-//creation of thread is separate from the routine starting 

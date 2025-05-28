@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:50:59 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 14:42:50 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:51:14 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,24 @@ static void	print_status(t_philo_data *philo, char *action)
 		philo->id, action);
 }
 
-void	log_philo_status(t_philo_data *philo, t_philo_state state)
+static void	match_output_to_status(t_philo_data *philo, t_philo_state state)
 {
 	pthread_mutex_lock(&philo->global->write_lock);
 	if (state == EATING)
 	{
 		print_status(philo, " is eating\n");
 	}
-	else if(state == SLEEPING)
+	else if (state == SLEEPING)
 	{
 		print_status(philo, " is sleeping\n");
 	}
-	else if(state == THINKING)
+	else if (state == THINKING)
 	{
 		print_status(philo, " is thinking\n");
 	}
-	else if(state == GOT_FIRST_FORK || state == GOT_SECOND_FORK)
+	else if (state == GOT_FIRST_FORK || state == GOT_SECOND_FORK)
 	{
-		print_status(philo, " has taken a fork\n");  
+		print_status (philo, " has taken a fork\n");
 	}
 	else
 	{
@@ -44,7 +44,9 @@ void	log_philo_status(t_philo_data *philo, t_philo_state state)
 	pthread_mutex_unlock(&philo->global->write_lock);
 }
 
-
-//i need the time in ms with the philo start time 	
-
-
+void	*log_philo_status(t_philo_data *philo, t_philo_state state)
+{
+	if (check_if_sim_stopped(philo))
+		return (NULL);
+	match_output_to_status(philo, state);
+}

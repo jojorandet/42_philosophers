@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 14:31:11 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 13:10:16 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,15 +120,13 @@ int							is_int_max(char *s);
 int							ft_atoi(char *s);
 
 void						init_param(int argc, char **argv, t_param *param);
-void						initialise_global_mutexes(t_global_data *global);
-
 
 t_philo_data				*init_thread_data(t_global_data *global);
-void						init_global_struct(t_global_data *global, t_param *params);
+bool						init_global_struct(t_global_data *global, t_param *params);
 
 int							start_philo_routine(t_global_data *table);
-void						log_philo_status(t_philo_data *philo, t_philo_state state);
 void						*routine(void	*data);
+int							log_philo_status(t_philo_data *philo, t_philo_state state);
 void						finish_philo_routine(t_global_data *global);
 
 void						*watch_rounds(void *data);
@@ -142,6 +140,7 @@ void						ft_putstr_fd(char *s, int fd);
 time_t						get_time_in_ms(void);
 
 void						destroy_mutexes(t_global_data *table);
+bool						check_if_sim_stopped(t_philo_data *philo);
 void						exit_philo(t_global_data *table);
 
 #endif

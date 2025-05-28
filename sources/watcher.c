@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:09:02 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 13:59:56 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:54:03 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@
 
 // has the philo died?
 
+int	time_until_death(int time_to_die)
+{
+	
+}
+
 void	*watch_rounds(void *data)
 {
 	t_global_data	*global;
@@ -36,7 +41,7 @@ void	*watch_rounds(void *data)
 	nbr_philos = global->params.nb_philos;
 	time_to_die = global->params.time_to_die;
 	printf("the watcher is created, nb_philos: %d and time_to_die: %d\n", nbr_philos, time_to_die);
-	(void)time_to_die;
-	(void)nbr_philos;
+	
+
 	return (NULL);
 }
