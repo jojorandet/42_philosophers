@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/28 12:27:05 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:23:14 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void	destroy_mutexes(t_global_data *global)
 	int	i;
 
 	i = 1;
-	if (global->fork_mutexes)
+	if (global->array_of_fork_locks)
 	{
 		while (i <= global->params.nb_philos)
 		{
-			pthread_mutex_destroy(&global->fork_mutexes[i]);
+			pthread_mutex_destroy(&global->array_of_fork_locks[i]);
 			i++;
 		}
-		free(global->fork_mutexes);
-		global->fork_mutexes = NULL;
+		free(global->array_of_fork_locks);
+		global->array_of_fork_locks = NULL;
 	}
 	pthread_mutex_destroy(&global->write_lock);
 	pthread_mutex_destroy(&global->sim_end_lock);

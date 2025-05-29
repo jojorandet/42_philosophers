@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/28 13:10:16 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:56:31 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ typedef struct				s_philo_data
 typedef struct				s_global_data
 {
 	time_t					start_time;
-	time_t					time_stamp;
 	pthread_t				watch_thread;
+	time_t					eaten_at;
 	t_param					params;
-	bool					philo_is_dead;
 	bool					sim_has_ended; //needs mutex 
-	pthread_mutex_t			*fork_mutexes;
+	pthread_mutex_t			*array_of_fork_locks;
 	pthread_mutex_t			write_lock;
 	pthread_mutex_t			sim_end_lock;
+	pthread_mutex_t			eating_time_lock;
 	t_philo_data			*philo;
 }							t_global_data;
 

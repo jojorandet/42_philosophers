@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/28 12:34:44 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:05:41 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	assign_forks(t_philo_data *philosopher, int n_philos)
 	else
 	{
 		philosopher->fork[0] = philosopher->id;
-		philosopher->fork[1] = (philosopher->id) % n_philos;
+		philosopher->fork[1] = (philosopher->id + 1) % n_philos;
 	}
 }
 
