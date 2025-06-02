@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:53:10 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 20:21:15 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct 				s_param
  */
 typedef struct				s_philo_data
 {
-	size_t					id;
+	int					id;
 	pthread_t				thread;
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];

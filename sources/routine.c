@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 17:18:35 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 20:37:08 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,15 @@
  */
 int	wait_forks(t_philo_data *philo, pthread_mutex_t *ff, pthread_mutex_t *sf)
 {
+	if (sim_has_stopped(philo))
+		return (0);
 	pthread_mutex_lock(ff);
 	if (!log_philo_status(philo, GOT_FIRST_FORK))
+	{
+		pthread_mutex_unlock(ff);
+		return (0);
+	}
+	if (sim_has_stopped(philo))
 	{
 		pthread_mutex_unlock(ff);
 		return (0);
@@ -52,6 +59,8 @@ int	eating(t_philo_data *philo, pthread_mutex_t *ff, pthread_mutex_t *sf)
 	}
 	philo->last_meal = get_time_in_ms();
 	ft_usleep(philo->global->params.time_to_eat);
+	pthread_mutex_unlock(ff);
+	pthread_mutex_unlock(sf);
 	return (1);
 }
 /**
@@ -75,13 +84,9 @@ void	start_philo_life_cycle(t_philo_data *philo)
 			return ;
 		if (!eating(philo, first_fork, second_fork))
 			return ;
-		pthread_mutex_unlock(first_fork);
-		pthread_mutex_unlock(second_fork);
 		if (!log_philo_status(philo, SLEEPING))
 			return ;
 		ft_usleep(philo->global->params.time_to_sleep);
-	//if the sim has stopped, which is when a philo dies, it will return
-	//if the philo have eaten, then you can also stop the simulation
 	}
 }
 /**

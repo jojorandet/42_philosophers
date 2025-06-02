@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 17:20:12 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 20:27:46 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,33 @@
  * @param fork[0] is the first fork the philosopher takes
  * grabs
  * @param fork[1] is the second fork the phoilosopher takes
- * Philosophers start at 0. 
- * Even philosophers grab their fork on the right first at the begining 
- * of the simulation. Even = right handed.
- * Odd philosophers grab their fork on the left first at the begining.
- * Odd = left handed.
- * 
- * This is done to avoid the scenario of philos eternally waiting on a
- * fork, which another philo is waiting for etc. DEADLOCK.
- * 
- * Here I obtain the index of the fork inside the array, 
- * so when im ready to use the fork mutex array, i enter this
- * (it is a number)
+ * Philosophers are always grabing the lowest indice fork
+ * and then when it gets to the last philsoopher, we use
+ * the modulo loop condition so that the order in which
+ * it grabs the fork is reversed :)
+ * it breaks the loop of waiting and avoids deadlock.
  */
 void	assign_forks(t_philo_data *philosopher, int n_philos)
 {
-	if (philosopher->id % 2 == 0)
+	int	first_fork;
+	int	second_fork;
+	int	left_fork;
+	int	right_fork;
+
+	left_fork = (philosopher->id + 1) % n_philos;
+	right_fork = philosopher->id;
+	if (left_fork < right_fork)
 	{
-		philosopher->fork[0] = philosopher->id;
-		philosopher->fork[1] = (philosopher->id + 1) % n_philos;
+		first_fork = left_fork;
+		second_fork = right_fork;
 	}
 	else
 	{
-		philosopher->fork[0] = (philosopher->id + 1) % n_philos;
-		philosopher->fork[1] = philosopher->id;
+		first_fork = right_fork;
+		second_fork = left_fork;
 	}
+	philosopher->fork[0] = first_fork;
+	philosopher->fork[1] = second_fork;
 }
 
 /**
