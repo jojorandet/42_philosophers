@@ -12,7 +12,8 @@
 
 #include "philo.h"
 
-int	waiting_for_forks(t_philo_data *philo)
+int	waiting_for_forks(t_philo_data *philo) //fix the lcoal copy vs pointer pb here yyou 
+//are accessiing the local fork copy and not the pointer itsself
 {
 	pthread_mutex_t	first_fork;
 	pthread_mutex_t	second_fork;
@@ -46,10 +47,11 @@ int	eating(t_philo_data *philo)
 	if (!log_philo_status(philo, EATING))
 	{
 		pthread_mutex_unlock(&global->array_of_fork_locks[philo->fork[0]]);
-		pthread_mutex_unlock(&second_fork);
+		pthread_mutex_unlock(&global->array_of_fork_locks[philo->fork[1]]);
 	}
 	pthread_mutex_lock(&philo->global->eating_time_lock);
 	philo->global->eaten_at = get_time_in_ms();
+	pthread_mutex_unlock(&philo->global->eating_time_lock);
 	
 	
 }
@@ -58,6 +60,11 @@ void	start_philo_life_cycle(t_philo_data *philo)
 {
 	pthread_mutex_t	first_fork;
 	pthread_mutex_t	second_fork;
+	t_global_data	*global;
+
+
+
+
 }
 /**
  * @brief philos always start by thinking, the time they

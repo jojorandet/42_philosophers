@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   watcher.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:09:02 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/28 10:54:03 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:41:43 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,14 @@
 //log output to DIED and send the signal to stop the simulation
 
 //the result of the above function can be 
-//above the time left, in whhich case 
+// if the above result is less thsan 0, meaning the current time is bigeer than the last meal + time to die, 
+// then die
+//if not, then not sure yet calculate tomorrow
+// but in the case where the philo does not die, then we need to check again
 
-//two things he needs to check: has the philo eaten at least x meals?
 
-// has the philo died?
+//try and gigure this time thing out :)
 
-int	time_until_death(int time_to_die)
-{
-	
-}
 
 void	*watch_rounds(void *data)
 {
@@ -40,8 +38,5 @@ void	*watch_rounds(void *data)
 	global = (t_global_data *)data;
 	nbr_philos = global->params.nb_philos;
 	time_to_die = global->params.time_to_die;
-	printf("the watcher is created, nb_philos: %d and time_to_die: %d\n", nbr_philos, time_to_die);
 	
-
-	return (NULL);
 }
