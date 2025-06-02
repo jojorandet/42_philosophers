@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:33:03 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:20:12 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ void	assign_forks(t_philo_data *philosopher, int n_philos)
 {
 	if (philosopher->id % 2 == 0)
 	{
-		philosopher->fork[0] = (philosopher->id + 1) % n_philos;
-		philosopher->fork[1] = philosopher->id;
+		philosopher->fork[0] = philosopher->id;
+		philosopher->fork[1] = (philosopher->id + 1) % n_philos;
 	}
 	else
 	{
-		philosopher->fork[0] = philosopher->id;
-		philosopher->fork[1] = (philosopher->id + 1) % n_philos;
+		philosopher->fork[0] = (philosopher->id + 1) % n_philos;
+		philosopher->fork[1] = philosopher->id;
 	}
 }
 

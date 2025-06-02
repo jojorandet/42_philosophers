@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:21:28 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:18:35 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	wait_forks(t_philo_data *philo, pthread_mutex_t *ff, pthread_mutex_t *sf)
 	{
 		pthread_mutex_unlock(ff);
 		pthread_mutex_unlock(sf);
+		return (0);
 	}
 	return (1);
 }

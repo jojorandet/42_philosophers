@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:40:45 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:13:25 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ long long	get_time_in_ms(void)
 	if (gettimeofday(&time, NULL) == -1)
 		ft_putstr_fd("gettimeofday() failed.\n", 2);
 	result = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	//printf("%lld (result of get time in ms\n)", result);
 	return (result);
 }
 
