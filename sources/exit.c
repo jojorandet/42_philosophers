@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 12:50:16 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:17:07 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	destroy_mutexes(t_global_data *global)
 	pthread_mutex_destroy(&global->sim_end_lock);
 }
 
-void	exit_philo(t_global_data *global)
+void	free_all_resources(t_global_data *global)
 {
 	destroy_mutexes(global);
 	if (global->philo)

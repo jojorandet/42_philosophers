@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:09:02 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 13:07:55 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:53:57 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,53 @@
 
 //try and gigure this time thing out :)
 
+bool	philos_are_alive(t_global_data *global, int	nbr_ph)
+{
+	int i;
+	long long		time_since_last_meal;
+	long long		current_time;
+	t_philo_data	*philo;
+
+	i = 0;
+	philo = global->philo;
+	current_time = get_time_in_ms();
+	while (i < nbr_ph)
+	{
+		time_since_last_meal = current_time - philo[i].last_meal;
+		//printf("time since last meal: %lld and last meal: %lld\n", time_since_last_meal, philo[i].last_meal);
+		if (time_since_last_meal >= global->params.time_to_die)
+		{
+			log_philo_status(&philo[i], DIED);
+			pthread_mutex_lock(&global->sim_end_lock);
+			global->sim_has_ended = true;
+			pthread_mutex_unlock(&global->sim_end_lock);
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
 
 void	*watch_rounds(void *data)
 {
 	t_global_data	*global;
 	int				nbr_philos;
-	int				time_to_die;
 
 	global = (t_global_data *)data;
 	nbr_philos = global->params.nb_philos;
-	time_to_die = global->params.time_to_die;
-	printf("nb ohilos: %d, time_to_die: %d\n", nbr_philos, time_to_die);
-	start_watch_routine(nbr_philos, time_to_die);
-
+	while (global->sim_has_ended != true)
+	{
+		if (!philos_are_alive(global, nbr_philos))
+		{
+			global->sim_has_ended = true;
+			return (NULL);
+		}
+	}
 	return (NULL);
 }
+
+//write thought process in pseudo code, you are capable enough to do this
+//trust yurself
+// two ways to know if the simulatipon has ended : in the output
+//here i need to check 

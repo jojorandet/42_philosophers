@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 10:59:41 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:05:31 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ int	main(int argc, char **argv)
 	global.philo = init_thread_data(&global);
 	if (!global.philo)
 		return (EXIT_FAILURE);
+	global.start_time = get_time_in_ms();
 	start_philo_routine(&global);
 	finish_philo_routine(&global);
-	exit_philo(&global);
+	free_all_resources(&global);
 	return (EXIT_SUCCESS);
 }

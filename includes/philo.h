@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 12:52:04 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:53:10 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct				s_philo_data
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];
 	t_philo_state			state;
+	long long				last_meal;
 	t_global_data			*global;
 }							t_philo_data;
 
@@ -96,9 +97,8 @@ typedef struct				s_philo_data
  */
 typedef struct				s_global_data
 {
-	time_t					start_time;
+	long long				start_time;
 	pthread_t				watch_thread;
-	time_t					eaten_at;
 	t_param					params;
 	bool					sim_has_ended; //needs mutex 
 	pthread_mutex_t			*fork_array;
@@ -132,15 +132,13 @@ void						finish_philo_routine(t_global_data *global);
 void						*watch_rounds(void *data);
 
 int							ft_usleep(time_t time_limit_us);
-time_t						get_time_in_ms(void);
-
 int							ft_strlen(char *s);
 int							ft_strcmp(char *s1, char *s2);
 void						ft_putstr_fd(char *s, int fd);
-time_t						get_time_in_ms(void);
+long long					get_time_in_ms(void);
 
 void						destroy_mutexes(t_global_data *table);
 bool						sim_has_stopped(t_philo_data *philo);
-void						exit_philo(t_global_data *table);
+void						free_all_resources(t_global_data *global);
 
 #endif

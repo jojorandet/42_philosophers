@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 11:08:22 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:33:03 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_philo_data	*init_thread_data(t_global_data *global)
 	if (!philos)
 	{
 		ft_putstr_fd("Error: Malloc.", 2);
-		exit_philo(global);
+		free_all_resources(global);
 		return (NULL);
 	}
 	philo_i = 0;
@@ -66,6 +66,7 @@ t_philo_data	*init_thread_data(t_global_data *global)
 	{
 		philos[philo_i].id = philo_i;
 		philos[philo_i].meals_eaten = 0;
+		philos[philo_i].last_meal = global->start_time;
 		philos[philo_i].global = global;
 		assign_forks(&philos[philo_i], global->params.nb_philos);
 		philo_i++;

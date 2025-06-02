@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:24:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 11:02:12 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:05:52 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
 	if (!fork_array)
 	{
 		ft_putstr_fd("Error: Malloc.", 2);
-		exit_philo(global);
+		free_all_resources(global);
 		return (NULL);
 	}
 	while (i < global->params.nb_philos)
@@ -62,8 +62,6 @@ static bool	initialise_global_mutexes(t_global_data *global)
 
 bool	init_global_struct(t_global_data *global, t_param *params)
 {
-	global->start_time = 0;
-	global->eaten_at = 0;
 	global->params = *params;
 	global->sim_has_ended = false;
 	return (initialise_global_mutexes(global));

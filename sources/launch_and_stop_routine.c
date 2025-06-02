@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 10:26:09 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:29:21 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	finish_philo_routine(t_global_data *global)
 	}
 	if (global->params.nb_philos > 1)
 		pthread_join(global->watch_thread, NULL);
-	exit_philo(global);
 }
 
 /**
@@ -70,7 +69,6 @@ int	start_philo_routine(t_global_data *global)
 	i = 0;
 	while (i < global->params.nb_philos)
 	{
-		global->start_time = get_time_in_ms();
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
 		{
 			while (i--)
