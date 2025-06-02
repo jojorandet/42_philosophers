@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/29 10:56:31 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:52:04 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct				s_global_data
 	time_t					eaten_at;
 	t_param					params;
 	bool					sim_has_ended; //needs mutex 
-	pthread_mutex_t			*array_of_fork_locks;
+	pthread_mutex_t			*fork_array;
 	pthread_mutex_t			write_lock;
 	pthread_mutex_t			sim_end_lock;
 	pthread_mutex_t			eating_time_lock;
@@ -126,7 +126,7 @@ bool						init_global_struct(t_global_data *global, t_param *params);
 
 int							start_philo_routine(t_global_data *table);
 void						*routine(void	*data);
-int							log_philo_status(t_philo_data *philo, t_philo_state state);
+bool						log_philo_status(t_philo_data *philo, t_philo_state state);
 void						finish_philo_routine(t_global_data *global);
 
 void						*watch_rounds(void *data);
@@ -140,7 +140,7 @@ void						ft_putstr_fd(char *s, int fd);
 time_t						get_time_in_ms(void);
 
 void						destroy_mutexes(t_global_data *table);
-bool						check_if_sim_stopped(t_philo_data *philo);
+bool						sim_has_stopped(t_philo_data *philo);
 void						exit_philo(t_global_data *table);
 
 #endif

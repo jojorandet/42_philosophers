@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/28 11:53:13 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:26:09 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	finish_philo_routine(t_global_data *global)
  * to pthread create to start interacting with it.
  * @param attr use the pthread_attr_init() if you want to be specific about
  * stack size, but in most cases NULL is sufficient. 
- * @param start_routine is the fucntion the thread should start running in, 
+ * @param start_routine is the function the thread should start running in, 
  * we send a function pointer. havoing a void pointer allows us to pass any 
  * pointer 
  * @param arg os the argument passed to the start routine.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_global_and_mutexes.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:24:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/29 10:27:46 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:02:12 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 */
 static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
 {
-	pthread_mutex_t		*array_of_fork_locks;
+	pthread_mutex_t		*fork_array;
 	int					i;
 
 	i = 0;
-	array_of_fork_locks = malloc(sizeof(pthread_mutex_t) * global->params.nb_philos);
-	if (!array_of_fork_locks)
+	fork_array = malloc(sizeof(pthread_mutex_t) * global->params.nb_philos);
+	if (!fork_array)
 	{
 		ft_putstr_fd("Error: Malloc.", 2);
 		exit_philo(global);
@@ -30,14 +30,14 @@ static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
 	}
 	while (i < global->params.nb_philos)
 	{
-		pthread_mutex_init(&array_of_fork_locks[i], 0);
+		pthread_mutex_init(&fork_array[i], 0);
 		i++;
 	}
-	return (array_of_fork_locks);
+	return (fork_array);
 }
 
 /**
- * @param array_of_fork_locks is an array of mutexes, or locks
+ * @param fork_array is an array of mutexes, or locks
  * When you have a section of code which is a critical section, it needs 
  * to be protected by locks in order to operate as desired. 
  * if no thread has the lock, then the thread accessing it first gets it.
@@ -52,7 +52,7 @@ static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
  */
 static bool	initialise_global_mutexes(t_global_data *global)
 {
-	if (!(global->array_of_fork_locks = init_global_fork_mutex(global)))
+	if (!(global->fork_array = init_global_fork_mutex(global)))
 		return (false);
 	pthread_mutex_init(&global->write_lock, NULL);
 	pthread_mutex_init(&global->sim_end_lock, NULL);

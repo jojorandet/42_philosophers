@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/29 11:05:41 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:08:22 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
  * 
  * This is done to avoid the scenario of philos eternally waiting on a
  * fork, which another philo is waiting for etc. DEADLOCK.
+ * 
+ * Here I obtain the index of the fork inside the array, 
+ * so when im ready to use the fork mutex array, i enter this
+ * (it is a number)
  */
 void	assign_forks(t_philo_data *philosopher, int n_philos)
 {

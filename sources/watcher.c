@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   watcher.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:09:02 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/29 17:41:43 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:07:55 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,8 @@ void	*watch_rounds(void *data)
 	global = (t_global_data *)data;
 	nbr_philos = global->params.nb_philos;
 	time_to_die = global->params.time_to_die;
-	
+	printf("nb ohilos: %d, time_to_die: %d\n", nbr_philos, time_to_die);
+	start_watch_routine(nbr_philos, time_to_die);
+
+	return (NULL);
 }

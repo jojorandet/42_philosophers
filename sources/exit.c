@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/29 10:23:14 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:50:16 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	msg(char *help_msg, char *detail, int exit_no)
 	return (exit_no);
 }
 
-bool	check_if_sim_stopped(t_philo_data *philo)
+bool	sim_has_stopped(t_philo_data *philo)
 {
 	pthread_mutex_lock(&philo->global->sim_end_lock);
 	if (philo->global->sim_has_ended == true)
@@ -38,15 +38,15 @@ void	destroy_mutexes(t_global_data *global)
 	int	i;
 
 	i = 1;
-	if (global->array_of_fork_locks)
+	if (global->fork_array)
 	{
 		while (i <= global->params.nb_philos)
 		{
-			pthread_mutex_destroy(&global->array_of_fork_locks[i]);
+			pthread_mutex_destroy(&global->fork_array[i]);
 			i++;
 		}
-		free(global->array_of_fork_locks);
-		global->array_of_fork_locks = NULL;
+		free(global->fork_array);
+		global->fork_array = NULL;
 	}
 	pthread_mutex_destroy(&global->write_lock);
 	pthread_mutex_destroy(&global->sim_end_lock);

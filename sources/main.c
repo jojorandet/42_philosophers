@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/28 12:33:23 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:59:41 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	init_param(int argc, char **argv, t_param *param)
  * problem. 
  * A good method is to determine which sections of the code are critical, and
  * to protect them with locks. These locks are called mutexes which 
- * stands for mutual exclusion.
+ * stands for mutual exclusion.\
+ * @brief see .h file for details about the structures
  */
 int	main(int argc, char **argv)
 {
