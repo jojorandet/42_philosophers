@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:29:21 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:02:07 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
  * the reaper is created aftr the philos: better to read initialised thread
  * than to miss a couple of seconds of monitoring.
  */
-int	create_watcher(t_global_data *global)
+int	create_watcher(t_main *main)
 {
-	if (pthread_create(&global->watch_thread, NULL, watch_rounds, global) != 0)
+	if (pthread_create(&main->watch_thread, NULL, watch_rounds, main) != 0)
 	{
-		pthread_detach(global->watch_thread);
+		pthread_detach(main->watch_thread);
 		return (msg("Error: pthread_join failed.\n", NULL, EXIT_FAILURE), false);
 	}
 	return (true);
@@ -29,19 +29,19 @@ int	create_watcher(t_global_data *global)
 /**
  * when you want to wait for threads to complete, you use pthread_join. 
  */
-void	finish_philo_routine(t_global_data *global)
+void	finish_philo_routine(t_main *main)
 {
 	int	i;
 
 	i = 0;
-	while (i < global->params.nb_philos)
+	while (i < main->params.nb_philos)
 	{
-		if (pthread_join(global->philo[i].thread, NULL) != 0)
+		if (pthread_join(main->philo[i].thread, NULL) != 0)
 			ft_putstr_fd("Error: pthread_join failed.\n", 2);
 		i++;
 	}
-	if (global->params.nb_philos > 1)
-		pthread_join(global->watch_thread, NULL);
+	if (main->params.nb_philos > 1)
+		pthread_join(main->watch_thread, NULL);
 }
 
 /**
@@ -56,18 +56,18 @@ void	finish_philo_routine(t_global_data *global)
  * pointer 
  * @param arg os the argument passed to the start routine.
  * in pthread create, i send thei individual philo routine 
- * @param start_time is a global data because its shared among all threads 
+ * @param start_time is a main data because its shared among all threads 
  * and they a;; start at the same time
  * the loop for the creation of threads takes no tie at all 
  */
-int	start_philo_routine(t_global_data *global)
+int	start_philo_routine(t_main *main)
 {
 	t_philo_data		*philo;
 	int					i;
 
-	philo = global->philo;
+	philo = main->philo;
 	i = 0;
-	while (i < global->params.nb_philos)
+	while (i < main->params.nb_philos)
 	{
 		if (pthread_create(&philo[i].thread, NULL, routine, &philo[i]) != 0)
 		{
@@ -78,7 +78,7 @@ int	start_philo_routine(t_global_data *global)
 		}
 		i++;
 	}
-	if (global->params.nb_philos > 1)
-		create_watcher(global);
+	if (main->params.nb_philos > 1)
+		create_watcher(main);
 	return (true);
 }

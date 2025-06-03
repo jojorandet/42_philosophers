@@ -15,7 +15,7 @@ endif
 
 SRCS			=			main.c \
 							parsing.c \
-							init_global_and_mutexes.c \
+							init_main_and_mutexes.c \
 							init_thread_data.c \
 							utils.c \
 							time_functions.c \

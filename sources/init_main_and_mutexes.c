@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_global_and_mutexes.c                          :+:      :+:    :+:   */
+/*   init_main_and_mutexes.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:24:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:05:52 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/03 15:18:28 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 /**
  * initialised here :) There is an array of mutexes for the forks. 
 */
-static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
+static pthread_mutex_t	*init_main_fork_mutex(t_main *main)
 {
 	pthread_mutex_t		*fork_array;
 	int					i;
 
 	i = 0;
-	fork_array = malloc(sizeof(pthread_mutex_t) * global->params.nb_philos);
+	fork_array = malloc(sizeof(pthread_mutex_t) * main->params.nb_philos);
 	if (!fork_array)
 	{
 		ft_putstr_fd("Error: Malloc.", 2);
-		free_all_resources(global);
+		free_all_resources(main);
 		return (NULL);
 	}
-	while (i < global->params.nb_philos)
+	while (i < main->params.nb_philos)
 	{
 		pthread_mutex_init(&fork_array[i], 0);
 		i++;
@@ -50,19 +50,18 @@ static pthread_mutex_t	*init_global_fork_mutex(t_global_data *global)
  * When you are done, you need to detroy the mutexes. 
  * 
  */
-static bool	initialise_global_mutexes(t_global_data *global)
+static bool	initialise_main_mutexes(t_main *main)
 {
-	if (!(global->fork_array = init_global_fork_mutex(global)))
+	if (!(main->fork_array = init_main_fork_mutex(main)))
 		return (false);
-	pthread_mutex_init(&global->write_lock, NULL);
-	pthread_mutex_init(&global->sim_end_lock, NULL);
-	pthread_mutex_init(&global->eating_time_lock, NULL);
+	pthread_mutex_init(&main->write_lock, NULL);
+	pthread_mutex_init(&main->sim_end_lock, NULL);
 	return (true);
 }
 
-bool	init_global_struct(t_global_data *global, t_param *params)
+bool	init_main_struct(t_main *main, t_param *params)
 {
-	global->params = *params;
-	global->sim_has_ended = false;
-	return (initialise_global_mutexes(global));
+	main->params = *params;
+	main->sim_has_ended = false;
+	return (initialise_main_mutexes(main));
 }

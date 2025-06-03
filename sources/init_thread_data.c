@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 20:27:46 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:07:38 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	assign_forks(t_philo_data *philosopher, int n_philos)
 	int	left_fork;
 	int	right_fork;
 
-	left_fork = (philosopher->id + 1) % n_philos;
-	right_fork = philosopher->id;
+	left_fork = philosopher->id;
+	right_fork = (philosopher->id + 1) % n_philos;
 	if (left_fork < right_fork)
 	{
 		first_fork = left_fork;
@@ -51,27 +51,28 @@ void	assign_forks(t_philo_data *philosopher, int n_philos)
  * 
  * @return is the pointer to the array of philo structures.
  */
-t_philo_data	*init_thread_data(t_global_data *global)
+t_philo_data	*init_thread_data(t_main *main)
 {
-	t_philo_data		*philos;
+	t_philo_data		*philo;
 	int					philo_i;
 
-	philos = malloc(sizeof(t_philo_data) * global->params.nb_philos);
-	if (!philos)
+	philo = malloc(sizeof(t_philo_data) * main->params.nb_philos);
+	if (!philo)
 	{
 		ft_putstr_fd("Error: Malloc.", 2);
-		free_all_resources(global);
+		free_all_resources(main);
 		return (NULL);
 	}
 	philo_i = 0;
-	while (philo_i < global->params.nb_philos)
+	while (philo_i < main->params.nb_philos)
 	{
-		philos[philo_i].id = philo_i;
-		philos[philo_i].meals_eaten = 0;
-		philos[philo_i].last_meal = global->start_time;
-		philos[philo_i].global = global;
-		assign_forks(&philos[philo_i], global->params.nb_philos);
+		philo[philo_i].id = philo_i;
+		philo[philo_i].meals_eaten = 0;
+		philo[philo_i].last_meal = main->start_time;
+		philo[philo_i].main = main;
+		assign_forks(&philo[philo_i], main->params.nb_philos);
+		pthread_mutex_init(&philo[philo_i].last_meal_lock, NULL);
 		philo_i++;
 	}
-	return (philos);
+	return (philo);
 }

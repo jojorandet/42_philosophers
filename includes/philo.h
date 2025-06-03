@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 20:21:15 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/03 15:17:39 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ positive :-)"
 
 /******************************** STRUCTURES *******************************/
 
-typedef struct s_global_data t_global_data;
+typedef struct s_main t_main;
 
 
 /**
@@ -59,9 +59,9 @@ typedef	enum e_philo_state
 typedef struct 				s_param
 {
 	int						nb_philos;
-	int						time_to_die;
-	int						time_to_eat;
-	int						time_to_sleep;
+	long long				time_to_die;
+	long long				time_to_eat;
+	long long				time_to_sleep;
 	int						nbr_meals_per_philo;
 }							t_param;
 
@@ -74,18 +74,19 @@ typedef struct 				s_param
  * @param fork fork access for each philo. fork[0] is the first fork taken, fork[1]
  * the second.
  * @param write_lock Pointer to shared mutex used for controlled output synchronization.
- * I didnt want to give the pointer to global, so i give pointers to one shared 
+ * I didnt want to give the pointer to main, so i give pointers to one shared 
  * mutex memory space.
  */
 typedef struct				s_philo_data
 {
-	int					id;
+	int						id;
 	pthread_t				thread;
 	unsigned int			meals_eaten;
 	unsigned int			fork[2];
 	t_philo_state			state;
 	long long				last_meal;
-	t_global_data			*global;
+	pthread_mutex_t			last_meal_lock;
+	t_main					*main;
 }							t_philo_data;
 
 /**
@@ -95,7 +96,7 @@ typedef struct				s_philo_data
  * @param philo pointer to the philo structures.
  * @
  */
-typedef struct				s_global_data
+typedef struct				s_main
 {
 	long long				start_time;
 	pthread_t				watch_thread;
@@ -104,9 +105,8 @@ typedef struct				s_global_data
 	pthread_mutex_t			*fork_array;
 	pthread_mutex_t			write_lock;
 	pthread_mutex_t			sim_end_lock;
-	pthread_mutex_t			eating_time_lock;
 	t_philo_data			*philo;
-}							t_global_data;
+}							t_main;
 
 
 /******************************* FUNCTIONS *********************************/
@@ -121,13 +121,13 @@ int							ft_atoi(char *s);
 
 void						init_param(int argc, char **argv, t_param *param);
 
-t_philo_data				*init_thread_data(t_global_data *global);
-bool						init_global_struct(t_global_data *global, t_param *params);
+t_philo_data				*init_thread_data(t_main *main);
+bool						init_main_struct(t_main *main, t_param *params);
 
-int							start_philo_routine(t_global_data *table);
+int							start_philo_routine(t_main *table);
 void						*routine(void	*data);
 bool						log_philo_status(t_philo_data *philo, t_philo_state state);
-void						finish_philo_routine(t_global_data *global);
+void						finish_philo_routine(t_main *main);
 
 void						*watch_rounds(void *data);
 
@@ -137,8 +137,8 @@ int							ft_strcmp(char *s1, char *s2);
 void						ft_putstr_fd(char *s, int fd);
 long long					get_time_in_ms(void);
 
-void						destroy_mutexes(t_global_data *table);
+void						destroy_mutexes(t_main *table);
 bool						sim_has_stopped(t_philo_data *philo);
-void						free_all_resources(t_global_data *global);
+void						free_all_resources(t_main *main);
 
 #endif

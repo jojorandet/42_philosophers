@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/02 16:05:31 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:58:16 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_param(int argc, char **argv, t_param *param)
  */
 int	main(int argc, char **argv)
 {
-	t_global_data	global;
+	t_main			main;
 	t_param			params;
 
 	if (argc - 1 < 4 || argc - 1 > 5)
@@ -42,14 +42,14 @@ int	main(int argc, char **argv)
 	if (!is_valid_input(argc, argv))
 		return (EXIT_FAILURE);
 	init_param(argc, argv, &params);
-	if (!(init_global_struct(&global, &params)))
+	if (!(init_main_struct(&main, &params)))
 		return (EXIT_FAILURE);
-	global.philo = init_thread_data(&global);
-	if (!global.philo)
+	main.philo = init_thread_data(&main);
+	if (!main.philo)
 		return (EXIT_FAILURE);
-	global.start_time = get_time_in_ms();
-	start_philo_routine(&global);
-	finish_philo_routine(&global);
-	free_all_resources(&global);
+	main.start_time = get_time_in_ms();
+	start_philo_routine(&main);
+	finish_philo_routine(&main);
+	free_all_resources(&main);
 	return (EXIT_SUCCESS);
 }
