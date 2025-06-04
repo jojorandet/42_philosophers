@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:50:59 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/03 16:01:40 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:28:18 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
  * @brief made the choice to have the get_time_in_ms at time of print for now
  * subject to change later on.
  */
-static void	print_status(t_philo_data *philo, char *action)
+static void	print_status(t_philo *philo, char *action)
 {
 	long long time;
 
 	time = get_time_in_ms() - philo->main->start_time;
-	printf("Timestamp %lld ms: Philo %d %s", time, philo->id, action);
+	printf("%lld ms: Philo %d %s", time, philo->id, action);
 }
 
-static void	match_output_to_status(t_philo_data *philo, t_philo_state state)
+static void	match_output_to_status(t_philo *philo, t_philo_state state)
 {
-	pthread_mutex_lock(&philo->main->write_lock);
+	
 	long long time;
 	if (state == THINKING)
 	{
@@ -35,20 +35,20 @@ static void	match_output_to_status(t_philo_data *philo, t_philo_state state)
 	else if (state == GOT_FIRST_FORK)
 	{
 		time = get_time_in_ms() - philo->main->start_time;
-		printf("Timestamp %lld ms: Philo %d has taken fork %d\n", time, philo->id, philo->fork[0]);
+		printf("%lld ms: Philo %d has taken fork\n", time, philo->id);
 	}
 		else if (state == GOT_SECOND_FORK)
 	{
 		time = get_time_in_ms() - philo->main->start_time;
-		printf("Timestamp %lld ms: Philo %d has taken fork %d\n", time, philo->id, philo->fork[1]);
+		printf("%lld ms: Philo %d has taken fork.\n", time, philo->id);
 	}
 	else if (state == EATING)
 	{
-		print_status(philo, " 					is eating\n");
+		print_status(philo, " 						is eating\n");
 	}
 	else if (state == SLEEPING)
 	{
-		print_status(philo, " 						is sleeping\n");
+		print_status(philo, " 											is sleeping\n");
 	}
 	else
 	{
@@ -57,10 +57,12 @@ static void	match_output_to_status(t_philo_data *philo, t_philo_state state)
 	pthread_mutex_unlock(&philo->main->write_lock);
 }
 
-bool	log_philo_status(t_philo_data *philo, t_philo_state state)
+bool	log_philo_status(t_philo *philo, t_philo_state state)
 {
+	pthread_mutex_lock(&philo->main->write_lock);
 	if (sim_has_stopped(philo))
 	{
+		pthread_mutex_unlock(&philo->main->write_lock);
 		return (false);
 	}
 	match_output_to_status(philo, state);

@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/03 12:02:07 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:31:33 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	finish_philo_routine(t_main *main)
 	{
 		if (pthread_join(main->philo[i].thread, NULL) != 0)
 			ft_putstr_fd("Error: pthread_join failed.\n", 2);
+		printf("Thread %d is done\n", i);
 		i++;
 	}
 	if (main->params.nb_philos > 1)
@@ -62,7 +63,7 @@ void	finish_philo_routine(t_main *main)
  */
 int	start_philo_routine(t_main *main)
 {
-	t_philo_data		*philo;
+	t_philo		*philo;
 	int					i;
 
 	philo = main->philo;

@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/03 15:31:37 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:43:17 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	msg(char *help_msg, char *detail, int exit_no)
 	return (exit_no);
 }
 
-bool	sim_has_stopped(t_philo_data *philo)
+bool	sim_has_stopped(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->main->sim_end_lock);
 	if (philo->main->sim_has_ended == true)
@@ -46,6 +46,7 @@ void	destroy_mutexes(t_main *main)
 			{
 				pthread_mutex_destroy(&main->fork_array[i]);
 				pthread_mutex_destroy(&main->philo[i].last_meal_lock);
+				pthread_mutex_destroy(&main->philo[i].is_done_lock);
 				i++;
 			}
 			free(main->fork_array);

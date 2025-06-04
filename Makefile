@@ -13,17 +13,18 @@ ifeq ($(OS), Darwin)
 	CFLAGS += -fsanitize=address
 endif 
 
-SRCS			=			main.c \
-							parsing.c \
+SRCS			=			exit.c \
+							fork_logic.c \
 							init_main_and_mutexes.c \
 							init_thread_data.c \
-							utils.c \
-							time_functions.c \
 							launch_and_stop_routine.c \
-							routine.c \
+							main.c \
 							output.c \
+							parsing.c \
+							routine.c \
+							time_functions.c \
 							watcher.c \
-							exit.c
+							utils.c 
 
 OBJS			= 			$(addprefix $(DIR_BIN)/src/, $(SRCS:.c=.o))
 

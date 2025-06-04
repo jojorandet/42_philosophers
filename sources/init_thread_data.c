@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/03 16:07:38 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/04 17:16:45 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,15 @@
  * it grabs the fork is reversed :)
  * it breaks the loop of waiting and avoids deadlock.
  */
-void	assign_forks(t_philo_data *philosopher, int n_philos)
+static void	initialise_forks(t_philo *philo, int n_philos)
 {
-	int	first_fork;
-	int	second_fork;
-	int	left_fork;
-	int	right_fork;
+	int	left_fork_index;
+	int	right_fork_index;
 
-	left_fork = philosopher->id;
-	right_fork = (philosopher->id + 1) % n_philos;
-	if (left_fork < right_fork)
-	{
-		first_fork = left_fork;
-		second_fork = right_fork;
-	}
-	else
-	{
-		first_fork = right_fork;
-		second_fork = left_fork;
-	}
-	philosopher->fork[0] = first_fork;
-	philosopher->fork[1] = second_fork;
+	left_fork_index = philo->id;
+	right_fork_index = (philo->id + 1) % n_philos;
+	philo->left_fork  = philo->main->fork_array + left_fork_index;
+	philo->right_fork  = philo->main->fork_array + right_fork_index;
 }
 
 /**
@@ -51,12 +39,12 @@ void	assign_forks(t_philo_data *philosopher, int n_philos)
  * 
  * @return is the pointer to the array of philo structures.
  */
-t_philo_data	*init_thread_data(t_main *main)
+t_philo	*init_thread_data(t_main *main)
 {
-	t_philo_data		*philo;
+	t_philo		*philo;
 	int					philo_i;
 
-	philo = malloc(sizeof(t_philo_data) * main->params.nb_philos);
+	philo = malloc(sizeof(t_philo) * main->params.nb_philos);
 	if (!philo)
 	{
 		ft_putstr_fd("Error: Malloc.", 2);
@@ -70,8 +58,10 @@ t_philo_data	*init_thread_data(t_main *main)
 		philo[philo_i].meals_eaten = 0;
 		philo[philo_i].last_meal = main->start_time;
 		philo[philo_i].main = main;
-		assign_forks(&philo[philo_i], main->params.nb_philos);
+		philo[philo_i].is_done = false;
+		initialise_forks(&philo[philo_i], main->params.nb_philos);
 		pthread_mutex_init(&philo[philo_i].last_meal_lock, NULL);
+		pthread_mutex_init(&philo[philo_i].is_done_lock, NULL);
 		philo_i++;
 	}
 	return (philo);

@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:24:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/03 15:18:28 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:42:00 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static pthread_mutex_t	*init_main_fork_mutex(t_main *main)
  */
 static bool	initialise_main_mutexes(t_main *main)
 {
-	if (!(main->fork_array = init_main_fork_mutex(main)))
+	main->fork_array = init_main_fork_mutex(main);
+	if (!(main->fork_array))
 		return (false);
 	pthread_mutex_init(&main->write_lock, NULL);
 	pthread_mutex_init(&main->sim_end_lock, NULL);

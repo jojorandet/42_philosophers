@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/03 15:17:39 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/04 17:06:58 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,17 @@ typedef struct				s_philo_data
 {
 	int						id;
 	pthread_t				thread;
-	unsigned int			meals_eaten;
-	unsigned int			fork[2];
+	int						meals_eaten;
+	int						fork[2];
+	pthread_mutex_t			*left_fork;
+	pthread_mutex_t			*right_fork;
 	t_philo_state			state;
 	long long				last_meal;
 	pthread_mutex_t			last_meal_lock;
+	pthread_mutex_t			is_done_lock;
+	bool					is_done;
 	t_main					*main;
-}							t_philo_data;
+}							t_philo;
 
 /**
  * @param fork_mutexes Array of mutexes for all forks.
@@ -105,7 +109,7 @@ typedef struct				s_main
 	pthread_mutex_t			*fork_array;
 	pthread_mutex_t			write_lock;
 	pthread_mutex_t			sim_end_lock;
-	t_philo_data			*philo;
+	t_philo			*philo;
 }							t_main;
 
 
@@ -121,12 +125,14 @@ int							ft_atoi(char *s);
 
 void						init_param(int argc, char **argv, t_param *param);
 
-t_philo_data				*init_thread_data(t_main *main);
+t_philo						*init_thread_data(t_main *main);
 bool						init_main_struct(t_main *main, t_param *params);
 
+int							wait_forks(t_philo *philo);
+void						assign_forks(t_philo *p,  pthread_mutex_t **ff, pthread_mutex_t **sf);
 int							start_philo_routine(t_main *table);
 void						*routine(void	*data);
-bool						log_philo_status(t_philo_data *philo, t_philo_state state);
+bool						log_philo_status(t_philo *philo, t_philo_state state);
 void						finish_philo_routine(t_main *main);
 
 void						*watch_rounds(void *data);
@@ -138,7 +144,7 @@ void						ft_putstr_fd(char *s, int fd);
 long long					get_time_in_ms(void);
 
 void						destroy_mutexes(t_main *table);
-bool						sim_has_stopped(t_philo_data *philo);
+bool						sim_has_stopped(t_philo *philo);
 void						free_all_resources(t_main *main);
 
 #endif
