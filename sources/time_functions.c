@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/03 10:56:03 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:45:11 by jonasvoisar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
  * result is in miliseconds for the simualtion
  * f can be called separately to the ft_usleep function for timestamp
  */
-long long	get_time_in_ms(void)
+long long get_time_in_ms(void)
 {
-	struct timeval	time;
-	long long		result;
+	struct timeval time;
+	long long result;
 
 	if (gettimeofday(&time, NULL) == -1)
 		ft_putstr_fd("gettimeofday() failed.\n", 2);
@@ -34,13 +34,13 @@ long long	get_time_in_ms(void)
 
 /**
  * usleep (1000) may sleep 800us or 1200 us depending on the system
- * Linux and Macos behave differently for the usleep, leading to 
+ * Linux and Macos behave differently for the usleep, leading to
  * inconcistencies
  * Instead of relying on the system's end alarm system, I build my own
  */
-int	ft_usleep(time_t time_limit_us)
+int ft_usleep(time_t time_limit_us)
 {
-	time_t	start;
+	time_t start;
 
 	start = get_time_in_ms();
 	while (get_time_in_ms() - start < time_limit_us)

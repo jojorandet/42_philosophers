@@ -16,7 +16,7 @@
  * the reaper is created aftr the philos: better to read initialised thread
  * than to miss a couple of seconds of monitoring.
  */
-int	create_watcher(t_main *main)
+int create_watcher(t_main *main)
 {
 	if (pthread_create(&main->watch_thread, NULL, watch_rounds, main) != 0)
 	{
@@ -27,11 +27,11 @@ int	create_watcher(t_main *main)
 }
 
 /**
- * when you want to wait for threads to complete, you use pthread_join. 
+ * when you want to wait for threads to complete, you use pthread_join.
  */
-void	finish_philo_routine(t_main *main)
+void finish_philo_routine(t_main *main)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < main->params.nb_philos)
@@ -48,23 +48,23 @@ void	finish_philo_routine(t_main *main)
 /**
  * @function the pthread create function takes four arguments
  * @param thread is a pointer to a struct of type pthread_t
- * This structure is used to interact with the thread, so we need to pass it 
+ * This structure is used to interact with the thread, so we need to pass it
  * to pthread create to start interacting with it.
  * @param attr use the pthread_attr_init() if you want to be specific about
- * stack size, but in most cases NULL is sufficient. 
- * @param start_routine is the function the thread should start running in, 
- * we send a function pointer. havoing a void pointer allows us to pass any 
- * pointer 
+ * stack size, but in most cases NULL is sufficient.
+ * @param start_routine is the function the thread should start running in,
+ * we send a function pointer. havoing a void pointer allows us to pass any
+ * pointer
  * @param arg os the argument passed to the start routine.
- * in pthread create, i send thei individual philo routine 
- * @param start_time is a main data because its shared among all threads 
+ * in pthread create, i send thei individual philo routine
+ * @param start_time is a main data because its shared among all threads
  * and they a;; start at the same time
- * the loop for the creation of threads takes no tie at all 
+ * the loop for the creation of threads takes no tie at all
  */
-int	start_philo_routine(t_main *main)
+int start_philo_routine(t_main *main)
 {
-	t_philo		*philo;
-	int					i;
+	t_philo *philo;
+	int i;
 
 	philo = main->philo;
 	i = 0;
@@ -74,11 +74,15 @@ int	start_philo_routine(t_main *main)
 		{
 			while (i--)
 				pthread_detach(philo[i].thread);
-			return (msg("Error: pthread_create failed.\n", \
-				NULL, EXIT_FAILURE), false);
+			return (msg("Error: pthread_create failed.\n",
+						NULL, EXIT_FAILURE),
+					false);
 		}
 		i++;
 	}
+	pthread_mutex_lock(&main->sim_running_lock);
+	main->sim_is_running = true;
+	pthread_mutex_unlock(&main->sim_running_lock);
 	if (main->params.nb_philos > 1)
 		create_watcher(main);
 	return (true);

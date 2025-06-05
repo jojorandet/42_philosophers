@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/04 17:16:45 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:32:58 by jonasvoisar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,27 @@
  * it grabs the fork is reversed :)
  * it breaks the loop of waiting and avoids deadlock.
  */
-static void	initialise_forks(t_philo *philo, int n_philos)
+static void initialise_forks(t_philo *philo, int n_philos)
 {
-	int	left_fork_index;
-	int	right_fork_index;
+	int left_fork_index;
+	int right_fork_index;
 
 	left_fork_index = philo->id;
 	right_fork_index = (philo->id + 1) % n_philos;
-	philo->left_fork  = philo->main->fork_array + left_fork_index;
-	philo->right_fork  = philo->main->fork_array + right_fork_index;
+	philo->left_fork = philo->main->fork_array + left_fork_index;
+	philo->right_fork = philo->main->fork_array + right_fork_index;
 }
 
 /**
  * Table of threads, useful for the monitor to traverse and see which
  * philo needs to be taken care of.
- * 
+ *
  * @return is the pointer to the array of philo structures.
  */
-t_philo	*init_thread_data(t_main *main)
+t_philo *init_thread_data(t_main *main)
 {
-	t_philo		*philo;
-	int					philo_i;
+	t_philo *philo;
+	int philo_i;
 
 	philo = malloc(sizeof(t_philo) * main->params.nb_philos);
 	if (!philo)

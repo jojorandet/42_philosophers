@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:26:28 by jrandet           #+#    #+#             */
-/*   Updated: 2025/05/27 11:01:28 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:18:42 by jonasvoisar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_strlen(char *s)
+int ft_strlen(char *s)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (s[i])
@@ -22,21 +22,21 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+int ft_strcmp(char *s1, char *s2)
 {
 	while (*s1 && *s2 && (*s1 == *s2))
 	{
 		if (*s1 != *s2)
-			break ;
+			break;
 		s1++;
 		s2++;
 	}
 	return (s1 - s2);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void ft_putstr_fd(char *s, int fd)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	while (s[i])
@@ -44,4 +44,18 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
+}
+
+char *ft_strcpy(char *src, char *dst)
+{
+	char *start;
+
+	start = dst;
+	while (*src)
+	{
+		*dst = *src;
+		src++;
+		dst++;
+	}
+	return (start);
 }

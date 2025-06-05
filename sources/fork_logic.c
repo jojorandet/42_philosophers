@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_logic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:46:07 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/04 14:52:44 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:20:49 by jonasvoisar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 
 /**
  * when the philo is waiting to eat, he is thinking.
- * 
+ *
  */
-void	assign_forks(t_philo *p,  pthread_mutex_t **ff, pthread_mutex_t **sf)
+void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
-	int	left_id;
-	int	right_id;
-	
-	left_id = p->id;
-	right_id = (p->id + 1) % p->main->params.nb_philos;
-	if (left_id < right_id)
+	if (((p->id + p->meals_eaten) % 2) == 0)
 	{
 		*ff = p->left_fork;
 		*sf = p->right_fork;
@@ -35,10 +30,10 @@ void	assign_forks(t_philo *p,  pthread_mutex_t **ff, pthread_mutex_t **sf)
 	}
 }
 
-int	wait_forks(t_philo *philo)
+int wait_forks(t_philo *philo)
 {
-	pthread_mutex_t	*first_fork;
-	pthread_mutex_t	*second_fork;
+	pthread_mutex_t *first_fork;
+	pthread_mutex_t *second_fork;
 
 	assign_forks(philo, &first_fork, &second_fork);
 	pthread_mutex_lock(first_fork);

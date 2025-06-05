@@ -12,14 +12,21 @@
 
 #include "philo.h"
 
+static void wait_for_start(t_philo *philo)
+{
+	while (philo->main->sim_is_running != true)
+	{
+		usleep(500);
+	}
+}
 /*
- * @param eating_at is the time at which the philo is eating. 
+ * @param eating_at is the time at which the philo is eating.
  * Important for the watcher who will use this data fir the time
  * checking throughout the simulation. This data is in milisec.
- * IMPORTANT: what data needs to be used here? 
+ * IMPORTANT: what data needs to be used here?
  * time to eat, time to sleep.
  */
-int	eating(t_philo *philo)
+int eating(t_philo *philo)
 {
 	if (!(wait_forks(philo)))
 		return (0);
@@ -45,21 +52,21 @@ int	eating(t_philo *philo)
  * 2. Philsophers have all eaten enough times, stop
  * so during the loop, need to check both of these conditions.
  */
-void	start_philo_life_cycle(t_philo *philo)
+void start_philo_life_cycle(t_philo *philo)
 {
 	while (1)
 	{
-		pthread_mutex_lock(&philo->main->sim_end_lock);
-		if (philo->main->sim_has_ended == true)
+		pthread_mutex_lock(&philo->main->sim_running_lock);
+		if (philo->main->sim_is_running == false)
 		{
-			pthread_mutex_unlock(&philo->main->sim_end_lock);
-			return ;
+			pthread_mutex_unlock(&philo->main->sim_running_lock);
+			return;
 		}
-		pthread_mutex_unlock(&philo->main->sim_end_lock);
+		pthread_mutex_unlock(&philo->main->sim_running_lock);
 		if (!log_philo_status(philo, THINKING))
-			return ;
+			return;
 		if (!eating(philo))
-			return ;
+			return;
 		pthread_mutex_lock(&philo->last_meal_lock);
 		if (philo->meals_eaten == philo->main->params.nbr_meals_per_philo)
 		{
@@ -67,11 +74,11 @@ void	start_philo_life_cycle(t_philo *philo)
 			pthread_mutex_lock(&philo->is_done_lock);
 			philo->is_done = true;
 			pthread_mutex_unlock(&philo->is_done_lock);
-			return ;
+			return;
 		}
 		pthread_mutex_unlock(&philo->last_meal_lock);
 		if (!log_philo_status(philo, SLEEPING))
-			return ;
+			return;
 		ft_usleep(philo->main->params.time_to_sleep);
 	}
 }
@@ -82,11 +89,11 @@ void	start_philo_life_cycle(t_philo *philo)
  * Grabs one fork. waits, dies.  In this case, I chose
  * to have the philo pick the fork on his left defacto,
  * so that the lone philo routine does not depend on the
- * fork assignment. 
+ * fork assignment.
  */
-void	lone_philo_routine(t_philo *philo)
+void lone_philo_routine(t_philo *philo)
 {
-	t_main	*main;
+	t_main *main;
 
 	main = philo->main;
 	log_philo_status(philo, THINKING);
@@ -95,17 +102,18 @@ void	lone_philo_routine(t_philo *philo)
 	ft_usleep(main->params.time_to_die);
 	log_philo_status(philo, DIED);
 	pthread_mutex_unlock(philo->left_fork);
-	return ;
+	return;
 }
 
-void	*routine(void	*data)
+void *routine(void *data)
 {
-	t_philo	*philo;
+	t_philo *philo;
 
 	philo = (t_philo *)data;
 	pthread_mutex_lock(&philo->last_meal_lock);
 	philo->last_meal = philo->main->start_time;
 	pthread_mutex_unlock(&philo->last_meal_lock);
+	wait_for_start(philo);
 	if (philo->main->params.nb_philos == 1)
 	{
 		lone_philo_routine(philo);

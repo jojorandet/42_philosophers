@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int	msg(char *help_msg, char *detail, int exit_no)
+int msg(char *help_msg, char *detail, int exit_no)
 {
 	if (detail != NULL)
 		printf(help_msg, STR_PROGRAM_NAME, detail);
@@ -21,21 +21,21 @@ int	msg(char *help_msg, char *detail, int exit_no)
 	return (exit_no);
 }
 
-bool	sim_has_stopped(t_philo *philo)
+bool sim_has_stopped(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->main->sim_end_lock);
-	if (philo->main->sim_has_ended == true)
+	pthread_mutex_lock(&philo->main->sim_running_lock);
+	if (philo->main->sim_is_running == false)
 	{
-		pthread_mutex_unlock(&philo->main->sim_end_lock);
+		pthread_mutex_unlock(&philo->main->sim_running_lock);
 		return (true);
 	}
-	pthread_mutex_unlock(&philo->main->sim_end_lock);
+	pthread_mutex_unlock(&philo->main->sim_running_lock);
 	return (false);
 }
 
-void	destroy_mutexes(t_main *main)
+void destroy_mutexes(t_main *main)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (main)
@@ -53,11 +53,11 @@ void	destroy_mutexes(t_main *main)
 			main->fork_array = NULL;
 		}
 		pthread_mutex_destroy(&main->write_lock);
-		pthread_mutex_destroy(&main->sim_end_lock);
+		pthread_mutex_destroy(&main->sim_running_lock);
 	}
 }
 
-void	free_all_resources(t_main *main)
+void free_all_resources(t_main *main)
 {
 	destroy_mutexes(main);
 	if (main->philo)
