@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:50:59 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 21:45:26 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ typedef enum e_philo_state
 	SLEEPING,
 	THINKING,
 	GOT_FIRST_FORK,
-	GOT_SECOND_FORK
+	GOT_SECOND_FORK,
+	HEY
 } t_philo_state;
 
 typedef struct s_param
@@ -87,9 +88,8 @@ typedef struct s_philo_data
 	int				meals_eaten;
 	pthread_mutex_t	last_meal_lock;
 	long long		last_meal;
-	pthread_mutex_t	start_simu;
 	pthread_mutex_t	is_full_lock;
-	bool			philo_is_full;
+	bool			is_full;
 	t_main			*main;
 } t_philo;
 
@@ -135,7 +135,7 @@ void finish_philo_routine(t_main *main);
 
 void *watch_rounds(void *data);
 
-int ft_usleep(time_t time_limit_us);
+int ft_sleep(time_t time_limit_ms);
 int ft_strlen(char *s);
 int ft_strcmp(char *s1, char *s2);
 void ft_putstr_fd(char *s, int fd);

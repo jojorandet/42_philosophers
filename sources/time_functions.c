@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:13:14 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 21:36:36 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param time.tv_usec is in microseconds, so divided by 1000.
  * @param result is a value of type time_t used in function below.
  * result is in miliseconds for the simualtion
- * f can be called separately to the ft_usleep function for timestamp
+ * f can be called separately to the ft_sleep function for timestamp
  */
 long long get_time_in_ms(void)
 {
@@ -40,12 +40,12 @@ long long get_time_in_ms(void)
  * ft usleep function where I send the limit to which
  * I can go to.
  */
-int ft_usleep(time_t time_limit_us)
+int ft_sleep(time_t time_limit_ms)
 {
 	time_t start;
 
 	start = get_time_in_ms();
-	while (get_time_in_ms() - start < time_limit_us)
-		usleep(400);
+	while (get_time_in_ms() - start < time_limit_ms)
+		usleep(500);
 	return (0);
 }

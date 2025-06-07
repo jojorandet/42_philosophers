@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:46:40 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 21:43:02 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void destroy_mutexes(t_main *main)
 				pthread_mutex_destroy(&main->fork_array[i]);
 				pthread_mutex_destroy(&main->philo[i].last_meal_lock);
 				pthread_mutex_destroy(&main->philo[i].is_full_lock);
-				pthread_mutex_destroy(&main->philo[i].meals_eaten_lock);
 				i++;
 			}
 			free(main->fork_array);

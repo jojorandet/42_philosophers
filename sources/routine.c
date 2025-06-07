@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:53:56 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 21:54:59 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void wait_for_start(t_philo *philo)
 			break;
 		}
 		pthread_mutex_unlock(&philo->main->sim_running_lock);
-		ft_usleep(200);
+		usleep(500);
 	}
 }
 /*
@@ -42,17 +42,17 @@ int eating(t_philo *philo)
 		return (0);
 	if (!log_philo_status(philo, EATING))
 	{
-		pthread_mutex_unlock(first_fork);
 		pthread_mutex_unlock(second_fork);
+		pthread_mutex_unlock(first_fork);
 		return (0);
 	}
+	philo->meals_eaten++;
 	pthread_mutex_lock(&philo->last_meal_lock);
 	philo->last_meal = get_time_in_ms();
-	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->last_meal_lock);
-	ft_usleep(philo->main->params.time_to_eat);
-	pthread_mutex_unlock(first_fork);
+	ft_sleep(philo->main->params.time_to_eat);
 	pthread_mutex_unlock(second_fork);
+	pthread_mutex_unlock(first_fork);
 	return (1);
 }
 
@@ -73,13 +73,13 @@ void start_philo_life_cycle(t_philo *philo)
 		if (philo->meals_eaten == philo->main->params.nbr_meals_per_philo)
 		{
 			pthread_mutex_lock(&philo->is_full_lock);
-			philo->philo_is_full = true;
+			philo->is_full = true;
 			pthread_mutex_unlock(&philo->is_full_lock);
 			return;
 		}
 		if (!log_philo_status(philo, SLEEPING))
 			return;
-		ft_usleep(philo->main->params.time_to_sleep);
+		ft_sleep(philo->main->params.time_to_sleep);
 	}
 }
 
@@ -99,7 +99,7 @@ void lone_philo_routine(t_philo *philo)
 	log_philo_status(philo, THINKING);
 	pthread_mutex_lock(philo->left_fork);
 	log_philo_status(philo, GOT_FIRST_FORK);
-	ft_usleep(main->params.time_to_die);
+	ft_sleep(main->params.time_to_die);
 	log_philo_status(philo, DIED);
 	pthread_mutex_unlock(philo->left_fork);
 	return;

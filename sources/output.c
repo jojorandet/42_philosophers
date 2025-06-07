@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:50:59 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/05 12:37:09 by jonasvoisar      ###   ########.fr       */
+/*   Updated: 2025/06/07 21:46:36 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,41 +34,28 @@ static void print_status(t_philo *philo, char *action)
 
 static void match_output_to_status(t_philo *philo, t_philo_state state)
 {
+	pthread_mutex_lock(&philo->main->write_lock);
 	if (state == THINKING)
-	{
 		print_status(philo, " 💭 \n");
-	}
 	else if (state == GOT_FIRST_FORK)
-	{
 		print_status(philo, " 🥄 \n");
-	}
 	else if (state == GOT_SECOND_FORK)
-	{
 		print_status(philo, " 🥄 \n");
-	}
 	else if (state == EATING)
-	{
 		print_status(philo, " 🍽️ \n");
-	}
 	else if (state == SLEEPING)
-	{
 		print_status(philo, " 😴 \n");
-	}
+	else if (state == HEY)
+		print_status(philo, " HEY \n");
 	else
-	{
 		print_status(philo, " ☠️ \n");
-	}
 	pthread_mutex_unlock(&philo->main->write_lock);
 }
 
 bool log_philo_status(t_philo *philo, t_philo_state state)
 {
-	pthread_mutex_lock(&philo->main->write_lock);
 	if (sim_has_stopped(philo))
-	{
-		pthread_mutex_unlock(&philo->main->write_lock);
 		return (false);
-	}
 	match_output_to_status(philo, state);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:46:07 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:17:12 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 21:17:38 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
  */
 void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
-	pthread_mutex_lock(&p->meals_eaten_lock);
-	if ((((p->id + p->meals_eaten) % 2)) == 0)
+	if ((p->id % 2) == 0)
 	{
 		*ff = p->left_fork;
 		*sf = p->right_fork;
@@ -34,12 +33,11 @@ void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 		*ff = p->right_fork;
 		*sf = p->left_fork;
 	}
-	pthread_mutex_unlock(&p->meals_eaten_lock);
 }
 /**
  * In this function, I assign the forks, and then I unlock the 
  * mutexes one by one. The mutexes are not the forks themselves, 
- * but rather there is a mutex arround the fork variables. 
+ * but rather there is a fork around the
  */
 int grab_forks(t_philo *philo, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
