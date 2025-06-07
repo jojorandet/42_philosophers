@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/05 12:45:11 by jonasvoisar      ###   ########.fr       */
+/*   Updated: 2025/06/07 15:50:40 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int ft_usleep(time_t time_limit_us)
 
 	start = get_time_in_ms();
 	while (get_time_in_ms() - start < time_limit_us)
-		usleep(500);
+		usleep(50);
 	return (0);
 }

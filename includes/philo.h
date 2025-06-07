@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 15:42:10 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 15:43:21 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_philo_data
 	int id;
 	pthread_t thread;
 	int meals_eaten;
-	int fork[2];
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t *right_fork;
 	t_philo_state state;
@@ -89,6 +88,7 @@ typedef struct s_philo_data
 	pthread_mutex_t last_meal_lock;
 	pthread_mutex_t start_simu;
 	pthread_mutex_t is_done_lock;
+	bool is_done;
 	t_main *main;
 } t_philo;
 
