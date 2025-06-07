@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 15:51:25 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:12:46 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void wait_for_start(t_philo *philo)
 			break;
 		}
 		pthread_mutex_unlock(&philo->main->sim_running_lock);
-		ft_usleep(100);
+		ft_usleep(200);
 	}
 }
 /*
@@ -38,7 +38,7 @@ int eating(t_philo *philo)
 	pthread_mutex_t *first_fork;
 	pthread_mutex_t *second_fork;
 
-	if (!(wait_forks(philo, &first_fork, &second_fork)))
+	if (!(grab_forks(philo, &first_fork, &second_fork)))
 		return (0);
 	if (!log_philo_status(philo, EATING))
 	{

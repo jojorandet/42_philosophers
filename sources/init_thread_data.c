@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/05 12:32:58 by jonasvoisar      ###   ########.fr       */
+/*   Updated: 2025/06/07 17:17:29 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_philo *init_thread_data(t_main *main)
 		initialise_forks(&philo[philo_i], main->params.nb_philos);
 		pthread_mutex_init(&philo[philo_i].last_meal_lock, NULL);
 		pthread_mutex_init(&philo[philo_i].is_done_lock, NULL);
+		pthread_mutex_init(&philo[philo_i].meals_eaten_lock, NULL);
 		philo_i++;
 	}
 	return (philo);

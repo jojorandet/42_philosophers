@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   watcher.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:09:02 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 15:30:48 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:18:09 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool philos_are_alive(t_main *main, int nbr_ph)
 	}
 	if (n_full_philos == main->params.nb_philos)
 		return (false);
-	ft_usleep(min_time_left + 5);
+	ft_usleep(min_time_left + 8);
 	return (true);
 }
 

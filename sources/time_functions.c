@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 15:50:40 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:13:14 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ long long get_time_in_ms(void)
  * Linux and Macos behave differently for the usleep, leading to
  * inconcistencies
  * Instead of relying on the system's end alarm system, I build my own
+ * ft usleep function where I send the limit to which
+ * I can go to.
  */
 int ft_usleep(time_t time_limit_us)
 {
@@ -44,6 +46,6 @@ int ft_usleep(time_t time_limit_us)
 
 	start = get_time_in_ms();
 	while (get_time_in_ms() - start < time_limit_us)
-		usleep(50);
+		usleep(400);
 	return (0);
 }

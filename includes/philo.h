@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 15:43:21 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:14:40 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_philo_data
 	pthread_mutex_t last_meal_lock;
 	pthread_mutex_t start_simu;
 	pthread_mutex_t is_done_lock;
+	pthread_mutex_t	meals_eaten_lock;
 	bool is_done;
 	t_main *main;
 } t_philo;
@@ -125,7 +126,7 @@ void init_param(int argc, char **argv, t_param *param);
 t_philo *init_thread_data(t_main *main);
 bool init_main_struct(t_main *main, t_param *params);
 
-int wait_forks(t_philo *philo, pthread_mutex_t **ff, pthread_mutex_t **sf);
+int grab_forks(t_philo *philo, pthread_mutex_t **ff, pthread_mutex_t **sf);
 void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf);
 int start_philo_routine(t_main *table);
 void *routine(void *data);

@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   fork_logic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:46:07 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 15:41:55 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:17:12 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /**
- * when the philo is waiting to eat, he is thinking.
- *
+ * I used a classic pair vs unpair philosopher id methodology. 
+ * The key challenge I observed while coding was that I used to then 
+ * manipulate the left fork and right fork in the main routine, but this
+ * did not take into account the first fork second fork ordering. 
+ * In all cases, it was with the order of the forks i needed to work
+ * with, and not the left fork and right fork as their order
+ * varies according to the philosopher.
  */
 void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
-	
-	if ((p->id % 2) == 0)
+	pthread_mutex_lock(&p->meals_eaten_lock);
+	if ((((p->id + p->meals_eaten) % 2)) == 0)
 	{
 		*ff = p->left_fork;
 		*sf = p->right_fork;
@@ -29,11 +34,15 @@ void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 		*ff = p->right_fork;
 		*sf = p->left_fork;
 	}
+	pthread_mutex_unlock(&p->meals_eaten_lock);
 }
-
-int wait_forks(t_philo *philo, pthread_mutex_t **ff, pthread_mutex_t **sf)
+/**
+ * In this function, I assign the forks, and then I unlock the 
+ * mutexes one by one. The mutexes are not the forks themselves, 
+ * but rather there is a mutex arround the fork variables. 
+ */
+int grab_forks(t_philo *philo, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
-
 	assign_forks(philo, ff, sf);
 	pthread_mutex_lock(*ff);
 	if (!log_philo_status(philo, GOT_FIRST_FORK))
