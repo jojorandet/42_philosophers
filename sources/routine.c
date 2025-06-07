@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/04 18:17:51 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 15:41:46 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,16 @@
 
 static void wait_for_start(t_philo *philo)
 {
-	while (philo->main->sim_is_running != true)
+	while (1)
 	{
-		usleep(500);
+		pthread_mutex_lock(&philo->main->sim_running_lock);
+		if (philo->main->sim_is_running == true)
+		{
+			pthread_mutex_unlock(&philo->main->sim_running_lock);
+			break;
+		}
+		pthread_mutex_unlock(&philo->main->sim_running_lock);
+		usleep(100);
 	}
 }
 /*
@@ -28,12 +35,15 @@ static void wait_for_start(t_philo *philo)
  */
 int eating(t_philo *philo)
 {
-	if (!(wait_forks(philo)))
+	pthread_mutex_t *first_fork;
+	pthread_mutex_t *second_fork;
+
+	if (!(wait_forks(philo, &first_fork, &second_fork)))
 		return (0);
 	if (!log_philo_status(philo, EATING))
 	{
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(second_fork);
+		pthread_mutex_unlock(first_fork);
 		return (0);
 	}
 	pthread_mutex_lock(&philo->last_meal_lock);
@@ -41,8 +51,8 @@ int eating(t_philo *philo)
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->last_meal_lock);
 	ft_usleep(philo->main->params.time_to_eat);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(second_fork);
+	pthread_mutex_unlock(first_fork);
 	return (1);
 }
 

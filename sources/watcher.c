@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   watcher.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:09:02 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/05 12:42:37 by jonasvoisar      ###   ########.fr       */
+/*   Updated: 2025/06/07 15:30:48 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ bool philos_are_alive(t_main *main, int nbr_ph)
 	{
 		if (philo_is_done(&philo[i]))
 		{
-			printf("entered the philo is done?\n");
 			n_full_philos++;
 		}
 		else

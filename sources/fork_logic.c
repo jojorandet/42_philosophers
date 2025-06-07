@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_logic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jonasvoisard <jonasvoisard@student.42.f    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:46:07 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/05 12:20:49 by jonasvoisar      ###   ########.fr       */
+/*   Updated: 2025/06/07 15:41:55 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
  */
 void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
-	if (((p->id + p->meals_eaten) % 2) == 0)
+	
+	if ((p->id % 2) == 0)
 	{
 		*ff = p->left_fork;
 		*sf = p->right_fork;
@@ -30,23 +31,21 @@ void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 	}
 }
 
-int wait_forks(t_philo *philo)
+int wait_forks(t_philo *philo, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
-	pthread_mutex_t *first_fork;
-	pthread_mutex_t *second_fork;
 
-	assign_forks(philo, &first_fork, &second_fork);
-	pthread_mutex_lock(first_fork);
+	assign_forks(philo, ff, sf);
+	pthread_mutex_lock(*ff);
 	if (!log_philo_status(philo, GOT_FIRST_FORK))
 	{
-		pthread_mutex_unlock(first_fork);
+		pthread_mutex_unlock(*ff);
 		return (0);
 	}
-	pthread_mutex_lock(second_fork);
+	pthread_mutex_lock(*sf);
 	if (!log_philo_status(philo, GOT_SECOND_FORK))
 	{
-		pthread_mutex_unlock(first_fork);
-		pthread_mutex_unlock(second_fork);
+		pthread_mutex_unlock(*sf);
+		pthread_mutex_unlock(*ff);
 		return (0);
 	}
 	return (1);
