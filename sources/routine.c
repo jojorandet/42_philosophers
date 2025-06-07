@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:12:46 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:53:56 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,17 @@ void start_philo_life_cycle(t_philo *philo)
 {
 	while (1)
 	{
-		pthread_mutex_lock(&philo->main->sim_running_lock);
-		if (philo->main->sim_is_running == false)
-		{
-			pthread_mutex_unlock(&philo->main->sim_running_lock);
-			return;
-		}
-		pthread_mutex_unlock(&philo->main->sim_running_lock);
 		if (!log_philo_status(philo, THINKING))
 			return;
 		if (!eating(philo))
 			return;
-		pthread_mutex_lock(&philo->last_meal_lock);
 		if (philo->meals_eaten == philo->main->params.nbr_meals_per_philo)
 		{
-			pthread_mutex_unlock(&philo->last_meal_lock);
-			pthread_mutex_lock(&philo->is_done_lock);
-			philo->is_done = true;
-			pthread_mutex_unlock(&philo->is_done_lock);
+			pthread_mutex_lock(&philo->is_full_lock);
+			philo->philo_is_full = true;
+			pthread_mutex_unlock(&philo->is_full_lock);
 			return;
 		}
-		pthread_mutex_unlock(&philo->last_meal_lock);
 		if (!log_philo_status(philo, SLEEPING))
 			return;
 		ft_usleep(philo->main->params.time_to_sleep);

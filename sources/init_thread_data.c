@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:17:29 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:48:07 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ t_philo *init_thread_data(t_main *main)
 		philo[philo_i].meals_eaten = 0;
 		philo[philo_i].last_meal = main->start_time;
 		philo[philo_i].main = main;
-		philo[philo_i].is_done = false;
+		philo[philo_i].philo_is_full = false;
 		initialise_forks(&philo[philo_i], main->params.nb_philos);
 		pthread_mutex_init(&philo[philo_i].last_meal_lock, NULL);
-		pthread_mutex_init(&philo[philo_i].is_done_lock, NULL);
+		pthread_mutex_init(&philo[philo_i].is_full_lock, NULL);
 		pthread_mutex_init(&philo[philo_i].meals_eaten_lock, NULL);
 		philo_i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 17:14:40 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 17:50:59 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,19 @@ typedef struct s_param
  */
 typedef struct s_philo_data
 {
-	int id;
-	pthread_t thread;
-	int meals_eaten;
-	pthread_mutex_t *left_fork;
-	pthread_mutex_t *right_fork;
-	t_philo_state state;
-	long long last_meal;
-	pthread_mutex_t last_meal_lock;
-	pthread_mutex_t start_simu;
-	pthread_mutex_t is_done_lock;
+	int				id;
+	pthread_t		thread;
+	t_philo_state	state;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	meals_eaten_lock;
-	bool is_done;
-	t_main *main;
+	int				meals_eaten;
+	pthread_mutex_t	last_meal_lock;
+	long long		last_meal;
+	pthread_mutex_t	start_simu;
+	pthread_mutex_t	is_full_lock;
+	bool			philo_is_full;
+	t_main			*main;
 } t_philo;
 
 /**
