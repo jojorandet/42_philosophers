@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:50:59 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 23:34:22 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:55:51 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
  * @brief made the choice to have the get_time_in_ms at time of print for now
  * subject to change later on.
  */
-static void print_status(t_philo *philo, char *action)
+static void	print_status(t_philo *philo, char *action)
 {
-	long long time;
-	int philo_i;
+	long long	time;
+	int			philo_i;
 
 	time = get_time_in_ms() - philo->main->start_time;
 	printf("%6.lld ms: Philo %d", time, philo->id);
@@ -32,7 +32,7 @@ static void print_status(t_philo *philo, char *action)
 	printf("%s", action);
 }
 
-bool log_philo_status(t_philo *philo, t_philo_state state)
+bool	log_philo_status(t_philo *philo, t_philo_state state)
 {
 	pthread_mutex_lock(philo->write_lock);
 	if (sim_has_stopped(philo))
@@ -55,4 +55,3 @@ bool log_philo_status(t_philo *philo, t_philo_state state)
 	pthread_mutex_unlock(philo->write_lock);
 	return (true);
 }
-

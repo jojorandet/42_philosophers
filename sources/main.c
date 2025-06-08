@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/04 15:32:46 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:51:08 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void init_param(int argc, char **argv, t_param *param)
+void	init_param(int argc, char **argv, t_param *param)
 {
 	param->nb_philos = ft_atoi(argv[1]);
 	param->time_to_die = ft_atoi(argv[2]);
@@ -33,10 +33,10 @@ void init_param(int argc, char **argv, t_param *param)
  * stands for mutual exclusion.\
  * @brief see .h file for details about the structures
  */
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_main main;
-	t_param params;
+	t_main	main;
+	t_param	params;
 
 	if (argc - 1 < 4 || argc - 1 > 5)
 		return (msg(STR_HELP, NULL, EXIT_FAILURE));

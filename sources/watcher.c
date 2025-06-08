@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:36:29 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 22:12:15 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:46:59 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static void	update_min_time_left(
 {
 	long long	time_left;
 	long long	time_to_die;
-	
+
 	time_left = 0;
 	time_to_die = philo->main->params.time_to_die;
 	pthread_mutex_lock(&philo->last_meal_lock);
-	time_left =  time_to_die - (current_time - philo->last_meal);
+	time_left = time_to_die - (current_time - philo->last_meal);
 	pthread_mutex_unlock(&philo->last_meal_lock);
 	if (time_left < *min_time_left)
 		*min_time_left = time_left;
@@ -34,7 +34,7 @@ static bool	philo_is_dead(t_philo *philo)
 	long long	current_time;
 	long long	time_since_last_meal;
 	bool		should_die;
-	
+
 	should_die = false;
 	pthread_mutex_lock(&philo->last_meal_lock);
 	current_time = get_time_in_ms();
@@ -48,9 +48,9 @@ static bool	philo_is_dead(t_philo *philo)
 	return (should_die);
 }
 
-static bool philo_is_full(t_philo *philo)
+static bool	philo_is_full(t_philo *philo)
 {
-	bool is_full;
+	bool	is_full;
 
 	pthread_mutex_lock(&philo->is_full_lock);
 	is_full = philo->is_full;
@@ -100,7 +100,7 @@ void	*watch_rounds(void *data)
 	t_main	*main;
 	t_philo	*philo;
 	int		nbr_philos;
-	
+
 	main = (t_main *)data;
 	philo = main->philo;
 	nbr_philos = main->params.nb_philos;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_and_stop_routine.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 13:54:24 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 15:31:15 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:52:57 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
  * the reaper is created aftr the philos: better to read initialised thread
  * than to miss a couple of seconds of monitoring.
  */
-int create_watcher(t_main *main)
+int	create_watcher(t_main *main)
 {
 	if (pthread_create(&main->watch_thread, NULL, watch_rounds, main) != 0)
 	{
 		pthread_detach(main->watch_thread);
-		return (msg("Error: pthread_join failed.\n", NULL, EXIT_FAILURE), false);
+		return (msg("Error: pthread_join.\n", NULL, EXIT_FAILURE), false);
 	}
 	return (true);
 }
@@ -29,9 +29,9 @@ int create_watcher(t_main *main)
 /**
  * when you want to wait for threads to complete, you use pthread_join.
  */
-void finish_philo_routine(t_main *main)
+void	finish_philo_routine(t_main *main)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < main->params.nb_philos)
@@ -60,10 +60,10 @@ void finish_philo_routine(t_main *main)
  * and they a;; start at the same time
  * the loop for the creation of threads takes no tie at all
  */
-int start_philo_routine(t_main *main)
+int	start_philo_routine(t_main *main)
 {
-	t_philo *philo;
-	int i;
+	t_philo	*philo;
+	int		i;
 
 	philo = main->philo;
 	i = 0;
@@ -74,8 +74,8 @@ int start_philo_routine(t_main *main)
 			while (i--)
 				pthread_detach(philo[i].thread);
 			return (msg("Error: pthread_create failed.\n",
-						NULL, EXIT_FAILURE),
-					false);
+					NULL, EXIT_FAILURE),
+				false);
 		}
 		i++;
 	}

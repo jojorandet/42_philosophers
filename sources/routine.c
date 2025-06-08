@@ -6,13 +6,13 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 22:33:49 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:54:43 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void wait_for_start(t_philo *philo)
+static void	wait_for_start(t_philo *philo)
 {
 	while (1)
 	{
@@ -20,12 +20,13 @@ static void wait_for_start(t_philo *philo)
 		if (philo->main->sim_is_running == true)
 		{
 			pthread_mutex_unlock(&philo->main->sim_running_lock);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&philo->main->sim_running_lock);
 		usleep(500);
 	}
 }
+
 /*
  * @param eating_at is the time at which the philo is eating.
  * Important for the watcher who will use this data fir the time
@@ -33,10 +34,10 @@ static void wait_for_start(t_philo *philo)
  * IMPORTANT: what data needs to be used here?
  * time to eat, time to sleep.
  */
-int eating(t_philo *philo)
+int	eating(t_philo *philo)
 {
-	pthread_mutex_t *first_fork;
-	pthread_mutex_t *second_fork;
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
 
 	if (!(grab_forks(philo, &first_fork, &second_fork)))
 		return (0);
@@ -62,23 +63,23 @@ int eating(t_philo *philo)
  * 2. Philsophers have all eaten enough times, stop
  * so during the loop, need to check both of these conditions.
  */
-void start_philo_life_cycle(t_philo *philo)
+void	start_philo_life_cycle(t_philo *philo)
 {
 	while (1)
 	{
 		if (!log_philo_status(philo, THINKING))
-			return;
+			return ;
 		if (!eating(philo))
-			return;
+			return ;
 		if (philo->meals_eaten == philo->main->params.nbr_meals_per_philo)
 		{
 			pthread_mutex_lock(&philo->is_full_lock);
 			philo->is_full = true;
 			pthread_mutex_unlock(&philo->is_full_lock);
-			return;
+			return ;
 		}
 		if (!log_philo_status(philo, SLEEPING))
-			return;
+			return ;
 		ft_sleep(philo->main->params.time_to_sleep);
 	}
 }
@@ -91,9 +92,9 @@ void start_philo_life_cycle(t_philo *philo)
  * so that the lone philo routine does not depend on the
  * fork assignment.
  */
-void lone_philo_routine(t_philo *philo)
+void	lone_philo_routine(t_philo *philo)
 {
-	t_main *main;
+	t_main	*main;
 
 	main = philo->main;
 	log_philo_status(philo, THINKING);
@@ -102,12 +103,12 @@ void lone_philo_routine(t_philo *philo)
 	ft_sleep(main->params.time_to_die);
 	log_philo_status(philo, DIED);
 	pthread_mutex_unlock(philo->left_fork);
-	return;
+	return ;
 }
 
-void *routine(void *data)
+void	*routine(void *data)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	pthread_mutex_lock(&philo->last_meal_lock);

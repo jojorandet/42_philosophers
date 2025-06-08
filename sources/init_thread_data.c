@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 23:46:15 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:49:59 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
  * it grabs the fork is reversed :)
  * it breaks the loop of waiting and avoids deadlock.
  */
-static void initialise_forks(t_philo *philo, int n_philos)
+static void	initialise_forks(t_philo *philo, int n_philos)
 {
-	int left_fork_index;
-	int right_fork_index;
+	int	left_fork_index;
+	int	right_fork_index;
 
 	left_fork_index = philo->id;
 	right_fork_index = (philo->id + 1) % n_philos;
@@ -39,10 +39,10 @@ static void initialise_forks(t_philo *philo, int n_philos)
  *
  * @return is the pointer to the array of philo structures.
  */
-t_philo *init_thread_data(t_main *main)
+t_philo	*init_thread_data(t_main *main)
 {
-	t_philo *philo;
-	int philo_i;
+	t_philo	*philo;
+	int		philo_i;
 
 	philo = malloc(sizeof(t_philo) * main->params.nb_philos);
 	if (!philo)

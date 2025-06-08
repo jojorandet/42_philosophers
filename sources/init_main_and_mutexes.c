@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:24:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 21:32:45 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:55:13 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 /**
  * initialised here :) There is an array of mutexes for the forks.
  */
-static pthread_mutex_t *init_main_fork_mutex(t_main *main)
+static pthread_mutex_t	*init_main_fork_mutex(t_main *main)
 {
-	pthread_mutex_t *fork_array;
-	int i;
+	pthread_mutex_t	*fork_array;
+	int				i;
 
 	i = 0;
 	fork_array = malloc(sizeof(pthread_mutex_t) * main->params.nb_philos);
@@ -50,7 +50,7 @@ static pthread_mutex_t *init_main_fork_mutex(t_main *main)
  * When you are done, you need to detroy the mutexes.
  *
  */
-static bool initialise_main_mutexes(t_main *main)
+static bool	initialise_main_mutexes(t_main *main)
 {
 	main->fork_array = init_main_fork_mutex(main);
 	if (!(main->fork_array))
@@ -60,7 +60,7 @@ static bool initialise_main_mutexes(t_main *main)
 	return (true);
 }
 
-bool init_main_struct(t_main *main, t_param *params)
+bool	init_main_struct(t_main *main, t_param *params)
 {
 	main->params = *params;
 	main->sim_is_running = false;

@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 17:26:17 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 21:36:36 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:43:14 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
  * result is in miliseconds for the simualtion
  * f can be called separately to the ft_sleep function for timestamp
  */
-long long get_time_in_ms(void)
+long long	get_time_in_ms(void)
 {
-	struct timeval time;
-	long long result;
+	struct timeval	time;
+	long long		result;
 
 	if (gettimeofday(&time, NULL) == -1)
 		ft_putstr_fd("gettimeofday() failed.\n", 2);
@@ -40,9 +40,9 @@ long long get_time_in_ms(void)
  * ft usleep function where I send the limit to which
  * I can go to.
  */
-int ft_sleep(time_t time_limit_ms)
+int	ft_sleep(time_t time_limit_ms)
 {
-	time_t start;
+	time_t	start;
 
 	start = get_time_in_ms();
 	while (get_time_in_ms() - start < time_limit_ms)

@@ -6,13 +6,13 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:53:00 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 21:43:02 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:47:54 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int msg(char *help_msg, char *detail, int exit_no)
+int	msg(char *help_msg, char *detail, int exit_no)
 {
 	if (detail != NULL)
 		printf(help_msg, STR_PROGRAM_NAME, detail);
@@ -21,7 +21,7 @@ int msg(char *help_msg, char *detail, int exit_no)
 	return (exit_no);
 }
 
-bool sim_has_stopped(t_philo *philo)
+bool	sim_has_stopped(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->main->sim_running_lock);
 	if (philo->main->sim_is_running == false)
@@ -33,9 +33,9 @@ bool sim_has_stopped(t_philo *philo)
 	return (false);
 }
 
-void destroy_mutexes(t_main *main)
+void	destroy_mutexes(t_main *main)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (main)
@@ -57,7 +57,7 @@ void destroy_mutexes(t_main *main)
 	}
 }
 
-void free_all_resources(t_main *main)
+void	free_all_resources(t_main *main)
 {
 	destroy_mutexes(main);
 	if (main->philo)
