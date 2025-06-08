@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:45:01 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 21:45:26 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 22:35:54 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ typedef enum e_philo_state
 	SLEEPING,
 	THINKING,
 	GOT_FIRST_FORK,
-	GOT_SECOND_FORK,
-	HEY
+	GOT_SECOND_FORK
 } t_philo_state;
 
 typedef struct s_param
@@ -89,6 +88,7 @@ typedef struct s_philo_data
 	pthread_mutex_t	last_meal_lock;
 	long long		last_meal;
 	pthread_mutex_t	is_full_lock;
+	pthread_mutex_t	*write_lock;
 	bool			is_full;
 	t_main			*main;
 } t_philo;
@@ -107,8 +107,8 @@ typedef struct s_main
 	t_param params;
 	bool sim_is_running; // needs mutex
 	pthread_mutex_t *fork_array;
-	pthread_mutex_t write_lock;
 	pthread_mutex_t sim_running_lock;
+	pthread_mutex_t write_lock;
 	t_philo *philo;
 } t_main;
 

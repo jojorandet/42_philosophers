@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:46:07 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 21:17:38 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 23:48:22 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ void assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 int grab_forks(t_philo *philo, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
 	assign_forks(philo, ff, sf);
+	printf("DEBUG: Philo %d - ff=%p, sf=%p\n", philo->id, (void*)*ff, (void*)*sf);
+    if (*ff == *sf) {
+        printf("FATAL ERROR: Same mutex! Philo %d trying to lock %p twice!\n", 
+               philo->id, (void*)*ff);
+        printf("left_fork=%p, right_fork=%p\n", 
+               (void*)philo->left_fork, (void*)philo->right_fork);
+        exit(1);
+    }
 	pthread_mutex_lock(*ff);
 	if (!log_philo_status(philo, GOT_FIRST_FORK))
 	{

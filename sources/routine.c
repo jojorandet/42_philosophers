@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/07 21:54:59 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/07 22:33:49 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int eating(t_philo *philo)
 		return (0);
 	if (!log_philo_status(philo, EATING))
 	{
-		pthread_mutex_unlock(second_fork);
 		pthread_mutex_unlock(first_fork);
+		pthread_mutex_unlock(second_fork);
 		return (0);
 	}
 	philo->meals_eaten++;
@@ -51,8 +51,8 @@ int eating(t_philo *philo)
 	philo->last_meal = get_time_in_ms();
 	pthread_mutex_unlock(&philo->last_meal_lock);
 	ft_sleep(philo->main->params.time_to_eat);
-	pthread_mutex_unlock(second_fork);
 	pthread_mutex_unlock(first_fork);
+	pthread_mutex_unlock(second_fork);
 	return (1);
 }
 
