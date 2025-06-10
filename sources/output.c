@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:50:59 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/08 10:55:51 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:41:07 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ static void	print_status(t_philo *philo, char *action)
 	time = get_time_in_ms() - philo->main->start_time;
 	printf("%6.lld ms: Philo %d", time, philo->id);
 	philo_i = 0;
-	while (philo_i <= philo->id)
+	if (philo->main->params.nb_philos <= 10)
 	{
-		printf("   ");
-		philo_i++;
+		while (philo_i <= philo->id)
+		{
+			printf("   ");
+			philo_i++;
+		}
 	}
 	printf("%s", action);
 }
