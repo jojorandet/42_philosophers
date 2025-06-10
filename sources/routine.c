@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/10 13:55:43 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:04:16 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	eating(t_philo *philo)
 		return (0);
 	if (!log_philo_status(philo, EATING))
 	{
-		pthread_mutex_unlock(first_fork);
 		pthread_mutex_unlock(second_fork);
+		pthread_mutex_unlock(first_fork);
 		return (0);
 	}
-	pthread_mutex_unlock(first_fork);
 	pthread_mutex_unlock(second_fork);
+	pthread_mutex_unlock(first_fork);
 	philo->meals_eaten++;
 	ft_sleep(philo->main->params.time_to_eat);
 	pthread_mutex_lock(&philo->last_meal_lock);
@@ -115,6 +115,8 @@ void	*routine(void *data)
 	philo->last_meal = philo->main->start_time;
 	pthread_mutex_unlock(&philo->last_meal_lock);
 	wait_for_start(philo);
+	if ((philo->id % 2) == 0)
+		usleep(1);
 	if (philo->main->params.nb_philos == 1)
 	{
 		lone_philo_routine(philo);
