@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:42:34 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/08 10:51:08 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:46:23 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	init_param(int argc, char **argv, t_param *param)
 	param->nbr_meals_per_philo = -1;
 	if (argc - 1 == 5)
 		param->nbr_meals_per_philo = ft_atoi(argv[5]);
-	printf("NB OIF MEALS THEY HAVE TO EAT IS %d\n", param->nbr_meals_per_philo);
 }
 
 /**
