@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:50:59 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/10 15:41:07 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/12 11:10:01 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,9 @@
 static void	print_status(t_philo *philo, char *action)
 {
 	long long	time;
-	int			philo_i;
 
 	time = get_time_in_ms() - philo->main->start_time;
 	printf("%6.lld ms: Philo %d", time, philo->id);
-	philo_i = 0;
-	if (philo->main->params.nb_philos <= 10)
-	{
-		while (philo_i <= philo->id)
-		{
-			printf("   ");
-			philo_i++;
-		}
-	}
 	printf("%s", action);
 }
 
@@ -44,17 +34,17 @@ bool	log_philo_status(t_philo *philo, t_philo_state state)
 		return (false);
 	}
 	if (state == THINKING)
-		print_status(philo, " 💭 \n");
+		print_status(philo, " is thinking\n");
 	else if (state == GOT_FIRST_FORK)
-		print_status(philo, " 🥄 \n");
+		print_status(philo, " has taken a fork\n");
 	else if (state == GOT_SECOND_FORK)
-		print_status(philo, " 🥄 \n");
+		print_status(philo, " has taken a fork\n");
 	else if (state == EATING)
-		print_status(philo, " 🍽️ \n");
+		print_status(philo, " is eating\n");
 	else if (state == SLEEPING)
-		print_status(philo, " 😴 \n");
+		print_status(philo, " is sleeping\n");
 	else
-		print_status(philo, " ☠️ \n");
+		print_status(philo, " died\n");
 	pthread_mutex_unlock(philo->write_lock);
 	return (true);
 }

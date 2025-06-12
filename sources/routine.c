@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/10 15:43:27 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/12 11:11:31 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	wait_for_start(t_philo *philo)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->main->sim_running_lock);
-		usleep(1000);
+		usleep(100);
 	}
 }
 

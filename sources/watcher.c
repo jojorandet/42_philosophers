@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:36:29 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/10 13:50:49 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/12 11:51:59 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ static bool	philo_is_dead(t_philo *philo)
 	current_time = get_time_in_ms();
 	time_since_last_meal = current_time - philo->last_meal;
 	if (time_since_last_meal >= philo->main->params.time_to_die)
-	{
-		log_philo_status(philo, DIED);
 		should_die = true;
-	}
 	pthread_mutex_unlock(&philo->last_meal_lock);
 	return (should_die);
 }
@@ -66,18 +63,20 @@ static bool	philo_is_full_or_dead(t_philo *philo, int nb_ph)
 	long long	current_time;
 
 	number_of_full_philos = 0;
-	i = 0;
+	i = -1;
 	min_time_left = __LONG_LONG_MAX__;
 	current_time = get_time_in_ms();
-	while (i < nb_ph)
+	while (++i < nb_ph)
 	{
 		if (philo_is_full(&philo[i]))
 			number_of_full_philos++;
 		else if (philo_is_dead(&philo[i]))
+		{
+			log_philo_status(philo, DIED);
 			return (true);
+		}
 		else
 			update_min_time_left(&philo[i], current_time, &min_time_left);
-		i++;
 	}
 	if (number_of_full_philos == philo->main->params.nb_philos)
 		return (true);
