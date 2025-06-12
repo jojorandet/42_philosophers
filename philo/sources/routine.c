@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/12 13:40:34 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:12:54 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@ void	*routine(void *data)
 	philo->last_meal = philo->main->start_time;
 	pthread_mutex_unlock(&philo->last_meal_lock);
 	wait_for_start(philo);
-	if ((philo->id % 2) == 0)
-		usleep(500);
 	if (philo->main->params.nb_philos == 1)
 	{
 		lone_philo_routine(philo);
