@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:29:43 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/12 11:11:31 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/12 13:40:34 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	wait_for_start(t_philo *philo)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->main->sim_running_lock);
-		usleep(100);
+		usleep(500);
 	}
 }
 
@@ -48,10 +48,10 @@ int	eating(t_philo *philo)
 		return (0);
 	}
 	philo->meals_eaten++;
-	ft_sleep(philo->main->params.time_to_eat);
 	pthread_mutex_lock(&philo->last_meal_lock);
 	philo->last_meal = get_time_in_ms();
 	pthread_mutex_unlock(&philo->last_meal_lock);
+	ft_sleep(philo->main->params.time_to_eat);
 	pthread_mutex_unlock(second_fork);
 	pthread_mutex_unlock(first_fork);
 	return (1);
@@ -116,7 +116,7 @@ void	*routine(void *data)
 	pthread_mutex_unlock(&philo->last_meal_lock);
 	wait_for_start(philo);
 	if ((philo->id % 2) == 0)
-		usleep(1);
+		usleep(500);
 	if (philo->main->params.nb_philos == 1)
 	{
 		lone_philo_routine(philo);

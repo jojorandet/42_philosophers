@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 14:46:07 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/12 11:36:45 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/12 13:42:52 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@
  */
 void	assign_forks(t_philo *p, pthread_mutex_t **ff, pthread_mutex_t **sf)
 {
-	if (p->id % 2 == 0)
+	int	left_id;
+	int	right_id;
+
+	left_id = p->id;
+	right_id = (p->id + 1) % p->main->params.nb_philos;
+	if (left_id < right_id)
 	{
 		*ff = p->left_fork;
 		*sf = p->right_fork;

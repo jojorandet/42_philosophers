@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_thread_data.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrandet <jrandet@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:05:44 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/08 10:49:59 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/12 13:26:45 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	initialise_forks(t_philo *philo, int n_philos)
 	left_fork_index = philo->id;
 	right_fork_index = (philo->id + 1) % n_philos;
 	philo->left_fork = philo->main->fork_array + left_fork_index;
+	philo->right_fork = philo->main->fork_array + right_fork_index;
 	philo->right_fork = philo->main->fork_array + right_fork_index;
 }
 
