@@ -6,7 +6,7 @@
 /*   By: jrandet <jrandet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:36:29 by jrandet           #+#    #+#             */
-/*   Updated: 2025/06/12 14:07:20 by jrandet          ###   ########.fr       */
+/*   Updated: 2025/06/13 16:58:38 by jrandet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static bool	philo_is_full_or_dead(t_philo *philo, int nb_ph)
 			update_min_time_left(&philo[i], current_time, &min_time_left);
 		if (min_time_left < 0)
 		{
-			log_philo_status(philo, DIED);
+			log_philo_status(&philo[i], DIED);
 			return (true);
 		}
 	}
